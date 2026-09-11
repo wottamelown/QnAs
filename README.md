@@ -171,19 +171,19 @@ The browser sends the HTTP GET request over the encrypted TLS tunnel:
 
 ### **RETURN TRAFFIC - How Does the Router Know Where to Send It Back?**
 
-#### 11. **Server Sends Response** (Layer 7 → Layer 2)
+#### 11. **Server Sends Response** 
 The web server builds the response packet:
 - **Layer 7:** HTTP response with status code (200 OK) and HTML content
 - **Layer 4:** TCP header with source port (443) and destination port (65432 — the port assigned by NAT)
 - **Layer 3:** IP header with source IP (54.239.28.30) and destination IP (203.0.113.50 — router's public IP)
 - **Layer 2:** Ethernet frame with appropriate MAC addresses for the internet route
 
-#### 12. **Packet Travels Back Through Internet** (Layer 3)
+#### 12. **Packet Travels Back Through Internet** 
 The response packet is routed back through multiple routers:
 - Each router examines destination IP (203.0.113.50 — your router's public IP)
 - Routers forward it hop-by-hop until it reaches your ISP and then your router
 
-#### 13. **Router/Firewall De-NAT Translation** (Layers 3-4) — **KEY STEP**
+#### 13. **Router/Firewall De-NAT Translation** (
 Your router receives the response packet. Here's how it knows where to send it:
 - **Router looks at:** Destination IP (203.0.113.50) and destination port (65432)
 - **Router searches its NAT table:** Finds the entry: `{192.168.1.100:54321} ↔ {203.0.113.50:65432}`
@@ -199,7 +199,7 @@ Your router receives the response packet. Here's how it knows where to send it:
 - The combination of destination IP + destination port uniquely identifies which PC to send the response to
 - Router lookups are fast (hash tables) — even with 1000s of entries, the lookup is O(1)
 
-#### 14. **Switch Routes Back to PC** (Layer 2 - Data Link) — **KEY STEP**
+#### 14. **Switch Routes Back to PC** 
 The packet reaches your local switch with destination IP 192.168.1.100:
 - Switch examines the destination MAC address (PC1's MAC address)
 - Switch looks up its **MAC address table** to find which port is connected to PC1
@@ -220,25 +220,13 @@ The packet reaches your local switch with destination IP 192.168.1.100:
 - When a response comes in from the router, switch uses this table to forward to the correct port
 - Each port only receives traffic destined for devices on that port — **switch prevents flooding** and keeps network efficient
 
-#### 15. **TCP Reassembly & Application Processing** (Layers 4 → 7)
+#### 15. **TCP Reassembly & Application Processing** 
 PC1 receives the response packet:
 - **Layer 2:** Network driver strips the Ethernet frame, passes payload to Layer 3
 - **Layer 3:** IP layer checks destination IP (matches local IP), passes to Layer 4
 - **Layer 4:** TCP layer checks destination port (54321 matches the outbound connection), reassembles data from multiple packets if needed
 - **Layer 7:** Application layer (browser) receives the complete HTTP response and renders the webpage
 
----
-
-### **Summary: How Return Traffic Finds Its Way Back Among 1000s of PCs**
-
-| Layer | Technology | How It Works |
-|-------|------------|--------------|
-| **Layer 3-4** | **NAT Table** | Router maintains entries mapping private IP:port ↔ public IP:port. When response arrives, router matches destination port and translates back to original private IP. |
-| **Layer 2** | **MAC Address Table (CAM)** | Switch learns which MAC addresses are on which ports from outbound traffic. When response arrives, switch uses the destination MAC to forward to the correct port. |
-| **Layer 4** | **TCP Connection State** | Firewall tracks established connections (SYN-ACK received). Return packets matching an established connection state are allowed through. |
-| **Unique Identifier** | **IP:Port Combination** | Each PC-to-server connection has a unique source IP:port tuple. This uniqueness ensures return traffic targets the correct PC. |
-
-**Key Insight:** The router doesn't need to know about all 1000 PCs individually. It only tracks **active connections** in its NAT table. When a response arrives, the destination port number uniquely identifies which internal PC should receive it.
 
 
 
