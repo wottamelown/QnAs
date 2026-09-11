@@ -95,137 +95,388 @@ Quick reference guide for networking protocols, ports, and addressing.
 Broadcast Address: Used by Devices to send ARP (To discover Who has this IP address?) & DHCP (Client - Server DHCP DORA)
 DORA: (Discover, Offer, Request, Acknoledgement)
 
-## Life Of A Packet
+# Life of a Packet
 
-### Scenario: PC1 → Web Server (Internet)
+## Scenario: PC1 → Web Server (Internet)
 
-#### 1. **DHCP IP Addressing** (Layer 2-3)
-Before accessing any network, your PC must obtain an IP address, gateway, and DNS server information through the DHCP DORA process:
-- **Discover:** Client broadcasts DHCP Discover packet to find a DHCP server
-- **Offer:** DHCP server responds with an available IP address
-- **Request:** Client requests that specific IP address
-- **Acknowledgment:** Server confirms the assignment
+### 1. DHCP — IP Configuration
 
-#### 2. **DNS Resolution** (Layer 7 - Application)
-You type a URL (e.g., `amazon.com`) into your browser. The browser queries a DNS server (port 53, UDP) to resolve the human-readable domain name to an IP address. If the DNS server doesn't have the record cached, it performs recursive queries to authoritative name servers.
+On a typical IPv4 network, the PC obtains its network configuration through DHCP:
 
-#### 3. **ARP Resolution - Finding the Gateway MAC** (Layer 2-3)
-To reach the internet, your PC needs the MAC address of the default gateway (since packets cannot travel without knowing the Layer 2 destination):
-- PC sends ARP broadcast: "Who has IP 192.168.1.1?" (the default gateway)
-- Gateway responds: "I have 192.168.1.1, my MAC is AA:BB:CC:DD:EE:FF"
-- PC learns the gateway's MAC address and caches it in its ARP table
+**DORA:**
 
-#### 4. **TCP Connection Establishment** (Layer 4 - Transport)
-Before sending data, TCP performs a three-way handshake with the web server:
-- **SYN:** PC sends a packet with SYN flag to server (54.239.28.30:443)
-- **SYN-ACK:** Server responds with SYN-ACK, confirming it received the request
-- **ACK:** PC acknowledges the connection
-- Connection is now established; the firewall/NAT notes this connection state
+* **Discover** — Client broadcasts DHCP Discover.
+* **Offer** — DHCP server offers an IP address.
+* **Request** — Client requests the offered address.
+* **ACK** — DHCP server confirms the lease.
 
-#### 5. **Packet Encapsulation at Source** (Layers 7 down to 2)
-Your PC builds the HTTP request and wraps it in layers:
-- **Layer 7 (Application):** HTTP GET request: "GET / HTTP/1.1"
-- **Layer 4 (Transport):** TCP header with source port (e.g., 54321) and destination port (443)
-- **Layer 3 (Network):** IP header with source IP (192.168.1.100) and destination IP (54.239.28.30)
-- **Layer 2 (Data Link):** Ethernet frame with source MAC (PC's MAC) and destination MAC (gateway's MAC)
+PC receives:
 
-#### 6. **Switch Forwards to Gateway** (Layer 2 - Data Link)
-The PC sends the frame out to the network switch:
-- Switch examines the destination MAC (AA:BB:CC:DD:EE:FF = gateway)
-- Switch looks up its **MAC address table** to find which port the gateway is on
-- Switch forwards the frame out the port connected to the gateway
-- *(Multiple PCs on the same switch don't interfere; the switch maintains a separate MAC entry for each port)*
-
-#### 7. **Router/Firewall Processing** (Layers 3-4)
-The packet reaches your router/firewall:
-- **Firewall examines the packet:** Checks if it matches outbound rules (usually allowed by default)
-- **NAT Translation** (if enabled): 
-  - Replaces the source IP (192.168.1.100) with the router's public IP (e.g., 203.0.113.50)
-  - Replaces the source port (54321) with a new port (e.g., 65432)
-  - **Router creates a NAT session entry:** `{192.168.1.100:54321} ↔ {203.0.113.50:65432}`
-  - This entry is **critical for return traffic** — the router will use it to translate responses back
-- Packet continues to the internet with public source IP
-
-#### 8. **Routing Across the Internet** (Layer 3)
-The packet travels through multiple routers and ISPs:
-- Each router examines the destination IP (54.239.28.30)
-- Each router consults its **routing table** to determine the next hop
-- Routers update the **hop count (TTL)** and forward the packet
-- Eventually, the packet reaches the destination web server
-
-#### 9. **SSL/TLS Handshake** (Layer 6-7 - Encryption)
-Once the TCP connection is established, SSL/TLS negotiation occurs (for HTTPS):
-- **Client Hello:** PC sends supported cipher suites and TLS version
-- **Server Hello:** Server responds with chosen cipher, its certificate, and public key
-- **Client verifies certificate:** PC checks the certificate is signed by a trusted CA
-- **Key exchange:** PC and server establish a shared encryption key
-- **Finished:** Both sides confirm the handshake; encrypted tunnel is ready
-
-#### 10. **HTTP Request Sent** (Layer 7 - Application)
-The browser sends the HTTP GET request over the encrypted TLS tunnel:
-- Server receives the request and processes it
-- Server generates the response (HTML, CSS, images, etc.)
-- Server sends the response back
+* IP address
+* Subnet mask
+* Default gateway
+* DNS server
 
 ---
 
-### **RETURN TRAFFIC - How Does the Router Know Where to Send It Back?**
+### 2. DNS Resolution
 
-#### 11. **Server Sends Response** 
-The web server builds the response packet:
-- **Layer 7:** HTTP response with status code (200 OK) and HTML content
-- **Layer 4:** TCP header with source port (443) and destination port (65432 — the port assigned by NAT)
-- **Layer 3:** IP header with source IP (54.239.28.30) and destination IP (203.0.113.50 — router's public IP)
-- **Layer 2:** Ethernet frame with appropriate MAC addresses for the internet route
+User enters `https://example.com`.
 
-#### 12. **Packet Travels Back Through Internet** 
-The response packet is routed back through multiple routers:
-- Each router examines destination IP (203.0.113.50 — your router's public IP)
-- Routers forward it hop-by-hop until it reaches your ISP and then your router
+The PC/browser performs a DNS query to resolve the domain name to an IP address.
 
-#### 13. **Router/Firewall De-NAT Translation** (
-Your router receives the response packet. Here's how it knows where to send it:
-- **Router looks at:** Destination IP (203.0.113.50) and destination port (65432)
-- **Router searches its NAT table:** Finds the entry: `{192.168.1.100:54321} ↔ {203.0.113.50:65432}`
-- **Router translates back:**
-  - Replaces destination IP (203.0.113.50) → 192.168.1.100 (your PC's private IP)
-  - Replaces destination port (65432) → 54321 (your PC's original port)
-- **Firewall allows return traffic:** Since this packet matches an existing connection state (established by the outbound SYN), the firewall permits it
-- Packet is now: `Source: 54.239.28.30:443, Destination: 192.168.1.100:54321`
+```text
+example.com → 54.239.28.30
+```
 
-**Why this works with 1000s of PCs:**
-- Each PC has a unique **private IP** and **port combination** (e.g., 192.168.1.100:54321, 192.168.1.101:54322, etc.)
-- Router maintains a **separate NAT entry for each connection** in its NAT table
-- The combination of destination IP + destination port uniquely identifies which PC to send the response to
-- Router lookups are fast (hash tables) — even with 1000s of entries, the lookup is O(1)
+DNS commonly uses **UDP/53**.
 
-#### 14. **Switch Routes Back to PC** 
-The packet reaches your local switch with destination IP 192.168.1.100:
-- Switch examines the destination MAC address (PC1's MAC address)
-- Switch looks up its **MAC address table** to find which port is connected to PC1
-- Example MAC table:
-  - `MAC AA:BB:CC:11:22:33 → Port 1` (PC1)
-  - `MAC AA:BB:CC:44:55:66 → Port 2` (PC2)`
-  - `MAC AA:BB:CC:77:88:99 → Port 3` (PC3)
-  - `MAC AA:BB:CC:DD:EE:FF → Port 24` (Gateway/Router)
-- **Switch forwards the frame out Port 1** where PC1 is connected
-- Packet is delivered to PC1
+---
 
-**Why this works with 1000s of PCs:**
-- The switch learns MAC addresses through **dynamic MAC learning:**
-  - When PC1 sends an outbound packet, switch notes: "MAC AA:BB:CC:11:22:33 is on Port 1"
-  - When PC2 sends an outbound packet, switch notes: "MAC AA:BB:CC:44:55:66 is on Port 2"
-  - And so on for each PC
-- Switch maintains a **MAC address table** (CAM table) with entries for each connected device
-- When a response comes in from the router, switch uses this table to forward to the correct port
-- Each port only receives traffic destined for devices on that port — **switch prevents flooding** and keeps network efficient
+### 3. ARP — Find the Next-Hop MAC
 
-#### 15. **TCP Reassembly & Application Processing** 
-PC1 receives the response packet:
-- **Layer 2:** Network driver strips the Ethernet frame, passes payload to Layer 3
-- **Layer 3:** IP layer checks destination IP (matches local IP), passes to Layer 4
-- **Layer 4:** TCP layer checks destination port (54321 matches the outbound connection), reassembles data from multiple packets if needed
-- **Layer 7:** Application layer (browser) receives the complete HTTP response and renders the webpage
+The destination is outside the local subnet, so the PC needs the MAC address of its **default gateway**.
+
+```text
+PC → ARP Broadcast:
+"Who has 192.168.1.1?"
+```
+
+Gateway responds with its MAC address.
+
+```text
+192.168.1.1 → AA:BB:CC:DD:EE:FF
+```
+
+The PC stores this in its ARP cache.
+
+> ARP resolves **IPv4 address → MAC address** on the local network.
+
+---
+
+### 4. TCP 3-Way Handshake
+
+For HTTPS, TCP establishes the connection to the server on port 443:
+
+```text
+PC → Server     SYN
+PC ← Server     SYN-ACK
+PC → Server     ACK
+```
+
+TCP connection is now established.
+
+---
+
+### 5. TLS Handshake
+
+Because the connection is HTTPS, TLS negotiation occurs before HTTP data is exchanged.
+
+Simplified:
+
+```text
+ClientHello
+    ↓
+ServerHello + Certificate
+    ↓
+Certificate Validation
+    ↓
+Key Exchange
+    ↓
+Session Keys Established
+```
+
+The client verifies the server certificate using its trusted CA store.
+
+---
+
+### 6. HTTP Request + Encapsulation
+
+The browser now sends the HTTP request over the encrypted TLS session.
+
+Conceptually:
+
+```text
+Layer 7  HTTP/TLS
+   ↓
+Layer 4  TCP
+   ↓
+Layer 3  IP
+   ↓
+Layer 2  Ethernet
+```
+
+Example:
+
+```text
+TCP:
+Source Port      = 54321
+Destination Port = 443
+
+IP:
+Source IP        = 192.168.1.100
+Destination IP   = 54.239.28.30
+
+Ethernet:
+Source MAC       = PC1 MAC
+Destination MAC  = Gateway MAC
+```
+
+---
+
+### 7. Access Switch → Gateway
+
+The PC sends the Ethernet frame to the access switch.
+
+The switch:
+
+1. Examines the destination MAC.
+2. Looks up the MAC address in its MAC/CAM table.
+3. Forwards the frame toward the gateway.
+
+```text
+PC1 → Access Switch → Gateway
+```
+
+The switch operates primarily at **Layer 2**.
+
+---
+
+### 8. Router / Firewall Processing
+
+The gateway/router/firewall receives the packet.
+
+It may perform:
+
+* Firewall policy inspection
+* Routing lookup
+* NAT/PAT
+* Security inspection
+
+For Internet access, NAT may translate:
+
+```text
+192.168.1.100:54321
+        ↓
+203.0.113.50:65432
+```
+
+The firewall maintains connection/NAT state:
+
+```text
+Inside:
+192.168.1.100:54321
+
+Public:
+203.0.113.50:65432
+
+Destination:
+54.239.28.30:443
+```
+
+---
+
+### 9. Routing Across the Internet
+
+The packet travels through multiple routers.
+
+Each router:
+
+* Examines the destination IP.
+* Performs a routing-table lookup.
+* Forwards the packet to the next hop.
+* Decrements the IP TTL.
+
+The **Layer-3 IP packet is routed hop-by-hop**, while the Layer-2 frame is replaced at each Layer-3 hop.
+
+```text
+Router → Router → Router → Web Server
+```
+
+---
+
+# Return Traffic
+
+### 10. Web Server Sends Response
+
+The server sends the response back:
+
+```text
+Source:
+54.239.28.30:443
+
+Destination:
+203.0.113.50:65432
+```
+
+The response travels back through the Internet toward the firewall's public IP.
+
+---
+
+### 11. Firewall Performs Reverse NAT
+
+The firewall receives:
+
+```text
+54.239.28.30:443
+        ↓
+203.0.113.50:65432
+```
+
+It checks its NAT/state table and finds:
+
+```text
+203.0.113.50:65432
+        ↓
+192.168.1.100:54321
+```
+
+It translates the destination back to PC1:
+
+```text
+Source:
+54.239.28.30:443
+
+Destination:
+192.168.1.100:54321
+```
+
+Because this matches an existing stateful connection, the firewall permits the return traffic.
+
+---
+
+### 12. Firewall → Switch → PC1
+
+The firewall now needs to deliver the packet to `192.168.1.100`.
+
+If necessary, it uses ARP:
+
+```text
+192.168.1.100 → PC1 MAC
+```
+
+It creates a new Ethernet frame:
+
+```text
+Source MAC:
+Firewall MAC
+
+Destination MAC:
+PC1 MAC
+```
+
+The switch receives the frame and uses its MAC table:
+
+```text
+PC1 MAC → Port 1
+```
+
+Then:
+
+```text
+Firewall → Access Switch → PC1
+```
+
+---
+
+### 13. PC Processes the Response
+
+PC1 receives the Ethernet frame.
+
+```text
+Layer 2 → Ethernet frame processed
+    ↓
+Layer 3 → IP packet processed
+    ↓
+Layer 4 → TCP stream/reassembly
+    ↓
+TLS     → Data decrypted
+    ↓
+Layer 7 → Browser processes HTTP response
+```
+
+The browser renders the webpage.
+
+---
+
+# Key Interview Concepts
+
+### ARP
+
+```text
+IPv4 Address → MAC Address
+```
+
+Used on the local network to reach the next-hop device.
+
+### Switching
+
+```text
+Destination MAC → Switch MAC Table → Port
+```
+
+### Routing
+
+```text
+Destination IP → Routing Table → Next Hop
+```
+
+### NAT/PAT
+
+```text
+Private IP:Port
+      ↓
+Public IP:Translated Port
+```
+
+### Stateful Firewall
+
+Tracks connections and allows return traffic belonging to an established session.
+
+### Important distinction
+
+```text
+MAC = Local Layer-2 delivery
+IP  = Layer-3 end-to-end addressing
+Port = Layer-4 application/session identification
+```
+
+### Typical Internet flow
+
+```text
+PC
+ ↓
+Access Switch
+ ↓
+Router / Core
+ ↓
+Firewall
+ ↓
+ISP
+ ↓
+Internet
+ ↓
+Web Server
+```
+
+### Return flow
+
+```text
+Web Server
+ ↓
+Internet
+ ↓
+ISP
+ ↓
+Firewall
+ ↓
+Router / Core
+ ↓
+Access Switch
+ ↓
+PC
+```
+
 
 
 
