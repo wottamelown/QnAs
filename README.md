@@ -97,6 +97,16 @@ DORA: (Discover, Offer, Request, Acknoledgement)
 
 ### Life Of A Packet
 
+Scenario: PC1 ----> Web Server (Internet)
 
+DHCP IP Addressing : Before accessing the network, your PC must obtain an IP address. This happens through the DORA process: Discover, Offer, Request, and Acknowledgment. The server provides the IP address, DNS server address, and the default gateway.
+
+Domain Name Request : You type a URL (like amazon.com) into your browser. Because humans can't easily remember IP addresses, DNS (Domain Name System) is used to map the human-readable domain name to the corresponding IP address.
+
+ARP and Layer 2/3 Travel : To reach the gateway and eventually the internet, your device needs to know the MAC address of the next hop. It uses the Address Resolution Protocol (ARP) to resolve this. Switches use a MAC address table to forward traffic, while routers use routing tables to direct the packet toward its destination.
+
+DNS Resolving : The query reaches the DNS server to resolve the domain name into an IP address. If the server doesn't have the record, it performs recursive or iterative queries to authoritative name servers to find the correct IP.
+
+SSL/TLS Connection : Once the browser has the IP address, it initiates a connection to the web server. A TLS handshake is performed to set up an encrypted SSL session, ensuring that all subsequent data transfer between your PC and the server is secure.
 
 
