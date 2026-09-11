@@ -86,15 +86,17 @@ Quick reference guide for networking protocols, ports, and addressing.
 |-------|---------|
 | 127.0.0.1 | Loopback (localhost) |
 | 0.0.0.0 | Default route / all interfaces |
-| 255.255.255.255 | Broadcast address |
+| 255.255.255.255 | Broadcast address | 
 | 224.0.0.0 – 239.255.255.255 | Multicast |
 | 240.0.0.0 – 255.255.255.255 | Reserved for future use |
 
----
+### Common Networking Terms
 
-## Quick Tips
+Broadcast Address: Used by Devices to send ARP (To discover Who has this IP address?) & DHCP (Client - Server DHCP DORA)
+DORA: (Discover, Offer, Request, Acknoledgement)
 
-- **Encrypted vs. Unencrypted:** Always prefer encrypted protocols (SSH over Telnet, HTTPS over HTTP, LDAPS over LDAP)
-- **UDP vs. TCP:** UDP is faster but unreliable; TCP ensures delivery but is slower. Use UDP for time-sensitive data (DNS, NTP), TCP for reliability (databases, file transfers)
-- **Default Gateway:** Typically the first usable IP in a subnet (e.g., 192.168.1.1 in a /24 network)
-- **Broadcast Address:** The last IP in a subnet (e.g., 192.168.1.255 in a /24 network)
+### Life Of A Packet
+
+
+
+
