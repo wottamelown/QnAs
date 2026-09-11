@@ -109,32 +109,6 @@ Before accessing any network, your PC must obtain an IP address, gateway, and DN
 #### 2. **DNS Resolution** (Layer 7 - Application)
 You type a URL (e.g., `amazon.com`) into your browser. The browser queries a DNS server (port 53, UDP) to resolve the human-readable domain name to an IP address. If the DNS server doesn't have the record cached, it performs recursive queries to authoritative name servers.
 
-#### 3. **ARP Resolution** (Layer 2-3)
-To reach the gateway and eventually the internet, your PC needs to know the MAC address of the next hop (default gateway). It sends an ARP broadcast asking "Who has this IP address?" The gateway responds with its MAC address.
-
-#### 4. **Layer 2/3 Travel** (Data Link & Network)
-- **Switches** forward frames using the MAC address table (Layer 2)
-- **Routers** use routing tables to direct packets toward their destination (Layer 3)
-- The packet is encapsulated with source/destination MAC and IP headers
-
-#### 5. **Routing to Destination** (Layer 3 & beyond)
-The packet travels across multiple routers and networks, with each router examining the destination IP and forwarding accordingly using its routing table until it reaches the destination network.
-
-#### 6. **SSL/TLS Handshake** (Layer 6-7 - Transport Security)
-Once the TCP connection is established (port 443 for HTTPS), an SSL/TLS handshake occurs:
-- Client sends "Client Hello" with supported cipher suites
-- Server responds with "Server Hello" and its certificate
-- Client verifies the certificate and exchanges encryption keys
-- Secure encrypted session is established
-
-#### 7. **HTTP Request & Response** (Layer 7 - Application)
-The browser sends an HTTP GET request over the encrypted TLS tunnel. The web server processes the request and returns the requested resource (HTML, CSS, images, etc.).
-
-You type a URL (e.g., `amazon.com`) into your browser. The browser queries a DNS server (port 53, UDP) to resolve the human-readable domain name to an IP address:
-- Browser sends DNS query: "What is the IP for amazon.com?"
-- DNS server responds: "amazon.com resolves to 54.239.28.30" (example public IP)
-- Browser now knows the destination IP address
-
 #### 3. **ARP Resolution - Finding the Gateway MAC** (Layer 2-3)
 To reach the internet, your PC needs the MAC address of the default gateway (since packets cannot travel without knowing the Layer 2 destination):
 - PC sends ARP broadcast: "Who has IP 192.168.1.1?" (the default gateway)
