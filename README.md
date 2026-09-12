@@ -314,54 +314,6 @@ Cost = Reference Bandwidth / Interface Bandwidth
 **Note:** For modern networks with high-speed links, increase the reference bandwidth to properly differentiate costs between 10G and 1G interfaces.
 
 
-
----------------------------------------------------------------------------
-
-### FortiManager
-
-port 1 is default mgmt int
-192.168.1.99 is the management IP.
-config system int > show > edit port > set allow access http https >
--- GUI Overview --
-
-Device Manager: Add Devices, VPN Monitor, SD-WAN Monitor, Provisioning Templates.
-Policy & Objects: Creating firewall policies & objects
-AP Manager: Used for multiple APs management.
-VPN Manager: used for IPSec, SSL VPNs. etc etc
-Fabric View: Topology physical and logical
-FortiGuard: To see license and upgrade the firewalls.
-Fortiswitch Manager: to change the ports of fsw.
-Reports: Generate reports.
--- Important Topics --
-
-We can create ADOMs to create logical grouping according to the requirements.
-Device Registration: Discover Device using IP, ADD S/N then IP, using CSV.
-We can do registration using FGT as well using Fabric Connectors.
--- Provisioning Templates --
-
-We can create System templates, SD-WAN Templates, IPSec Tunnel Templates, BGP, Static Route Templates, CLI Templates
-Then we have Template Groups to combine all the above templates and push it to the devices.
-We can import the templates from already available devices FGTs and then make a templates.
-We can assign the templates then go to device manager to install the templates.
--- Device Groups --
-
-Device Groups > Managed ForitGates > Create New Group.
--- Scripts --
-
-There are 2 types of scripts CLI and TCL.
-We can create a script to configure using CLI ZTP and then push it to devices to update the configuration.
--- Revision History -- 20. Revision history means to check the history and revert back if something goes wrong. 21. We can check the revision history by going to the FGT in device manager and then click on it then Device Revisions. 22. The updates shows (Auto-Update, Out Of Sync, Modified, Modified (recent auto updated)
-
--- Policy & Objects --
-
-These are like the firewall policies which we can set per device or per group.
-Policy Package is a firewall rule. Objects are the IP addresses, FQDNs, Security Profiles, Virtual Servers etc etc.
-Normalized Interfaces are different int configurations for each device.
-First Step is to create normalized Interface For LAN, WAN
-Then we can create Policy Package and then create firewall policy.
-Last step if to add the installation targets and then install policy package.
--- VPN Manager -- 29. Forti Manager supports Full Mesh, Star, Dial Up. 30. Mesh means all devices has a tunnel to other HQ - DC, DC - Site, HQ - Site. 31. Star means Sites will forward the traffic to HUB and send all the traffic to HQ. 32.
-
 -----------------------------------------------------------------------------------------------------------------
 
 ### Frequently asked Q & As
@@ -586,3 +538,218 @@ Example:
 
 Pause the lower-priority ticket, update notes, and switch to the higher-priority issue. Communicate to both requestors: notify the low-priority stakeholder of the delay and give an ETA, then focus on resolving the higher-priority issue first.
 
+
+
+---------------------------------------------------------------------------
+
+## FortiManager
+
+### Basic Setup
+
+**Management Interface:**
+- Port 1 is the default management interface
+- Default Management IP: `192.168.1.99`
+
+**Enable Web Access:**
+config system interface show edit port1 set allowaccess http https end
+
+Code
+
+---
+
+### GUI Modules Overview
+
+| Module | Purpose |
+|--------|---------|
+| **Device Manager** | Add and manage devices; monitor VPN and SD-WAN; manage provisioning templates |
+| **Policy & Objects** | Create firewall policies and reusable objects (IPs, FQDNs, security profiles, virtual servers) |
+| **AP Manager** | Centralized management for multiple access points |
+| **VPN Manager** | Configure and manage IPSec and SSL VPNs |
+| **Fabric View** | Visualize physical and logical network topology |
+| **FortiGuard** | Manage licenses and upgrade firmware on FortiGates |
+| **FortiSwitch Manager** | Configure FortiSwitch port settings and VLAN assignments |
+| **Reports** | Generate and analyze network reports |
+
+---
+
+### ADOMs (Administrative Domains)
+
+**Purpose:** Create logical groupings of devices for centralized management
+
+**Use Cases:**
+- Organize by department, location, or customer
+- Each ADOM has its own policies, templates, and objects
+- Simplifies multi-tenant or large-scale deployments
+- Enables delegation of administrative tasks
+
+---
+
+### Device Registration
+
+**Three Methods:**
+
+1. **Discovery by IP Address**
+   - Discover device using its IP address
+   - Enter credentials to authenticate
+
+2. **Serial Number + IP Address**
+   - Add device using its serial number
+   - Then assign its IP address
+
+3. **Bulk Import via CSV**
+   - Import multiple devices at once using a CSV file
+   - Reduces manual entry for large deployments
+
+**Alternative: Fabric Connector**
+- Register devices directly from FortiGate using Fabric Connectors
+- Devices auto-register with FortiManager
+
+---
+
+### Provisioning Templates
+
+**Template Types:**
+- System templates
+- SD-WAN templates
+- IPSec tunnel templates
+- BGP templates
+- Static route templates
+- CLI templates
+
+**Workflow:**
+
+1. **Create Individual Templates**
+   - Define configuration for each template type
+
+2. **Group Templates**
+   - Combine related templates into **Template Groups**
+
+3. **Assign to Devices**
+   - Select which devices/groups receive the template group
+
+4. **Import Option**
+   - Import templates from existing FortiGate devices as a starting point
+   - Modify and reuse across multiple devices
+
+5. **Install Templates**
+   - Go to Device Manager and install template group to target devices
+
+---
+
+### Device Groups
+
+**Purpose:** Organize managed FortiGates for centralized policy and template management
+
+**Setup:**
+Device Groups > Managed FortiGates > Create New Group
+
+Code
+
+**Benefits:**
+- Apply policies and templates to multiple devices simultaneously
+- Simplify management of similar device types
+
+---
+
+### Scripts
+
+**Two Types:**
+
+| Type | Description | Use Case |
+|------|-------------|----------|
+| **CLI Scripts** | Native FortiGate CLI commands | Configuration, troubleshooting, automation |
+| **TCL Scripts** | Tcl language-based automation | Advanced logic, conditional operations |
+
+**Use Cases:**
+- Zero-Touch Provisioning (ZTP): Push configurations to devices during onboarding
+- Bulk configuration updates
+- Device initialization automation
+
+---
+
+### Revision History
+
+**Purpose:** Track configuration changes and revert to previous versions if needed
+
+**How to Access:**
+1. Go to **Device Manager**
+2. Select a FortiGate device
+3. Click **Device Revisions**
+
+**What It Shows:**
+- **Auto-Update:** Configuration updated automatically
+- **Out Of Sync:** Device configuration differs from FortiManager
+- **Modified:** Manual configuration changes made
+- **Modified (recent auto updated):** Recent automatic updates applied
+
+**Use:** Compare versions, understand change history, and rollback if necessary
+
+---
+
+### Policy & Objects
+
+**Core Components:**
+
+| Component | Description |
+|-----------|-------------|
+| **Policy Package** | Firewall ruleset applied to devices or device groups |
+| **Objects** | Reusable elements: IP addresses, FQDNs, security profiles, virtual servers, service objects |
+| **Normalized Interfaces** | Map logical interface names (e.g., LAN, WAN) to different physical interfaces per device |
+
+**Setup Workflow:**
+
+1. **Create Normalized Interfaces**
+   - Define logical interface mappings for LAN and WAN
+   - Ensures policies apply consistently across different device models
+
+2. **Create Policy Package**
+   - Define the policy container
+
+3. **Create Firewall Policies**
+   - Source and destination zones/addresses
+   - Services and applications
+   - Actions (Allow, Deny, etc.)
+   - NAT settings if required
+
+4. **Add Installation Targets**
+   - Select which devices or device groups receive the policy
+
+5. **Install Policy Package**
+   - Deploy to target devices
+
+**Why Normalized Interfaces Matter:**
+- Devices may have different physical port names/numbers
+- Normalized interfaces ensure policies work regardless of hardware differences
+- Example: All "LAN" interfaces point to their respective physical interfaces per device
+
+---
+
+### VPN Manager
+
+**Supported Topologies:**
+
+| Topology | Description | Use Case |
+|----------|-------------|----------|
+| **Full Mesh** | Every site has a tunnel to every other site (HQ ↔ DC, HQ ↔ Site, DC ↔ Site) | Small networks with direct inter-site communication needs |
+| **Star (Hub & Spoke)** | All remote sites tunnel to a central hub; sites forward traffic through the hub | Typical enterprise topology; centralized security and control |
+| **Dial-Up** | Remote sites initiate tunnels to central hub on-demand | Temporary or mobile connections |
+
+**Mesh Topology Details:**
+- Every device connects to every other device
+- High redundancy but complex for large deployments
+- Generates many tunnels (N × (N-1) ÷ 2 tunnels for N sites)
+
+**Star Topology Details:**
+- Remote sites connect only to the central hub (HQ or data center)
+- All inter-site traffic flows through the hub
+- Scalable and easier to manage
+- Single point of failure (hub should be redundant)
+
+**Configuration in VPN Manager:**
+- Select topology type
+- Define hub (central point)
+- Define spokes (remote sites)
+- Configure IPSec parameters (encryption, authentication)
+- Assign to device groups for deployment
+
+---
