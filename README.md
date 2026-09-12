@@ -228,18 +228,15 @@ PC1 receives the response packet:
 - **Layer 7:** Application layer (browser) receives the complete HTTP response and renders the webpage
 
 
-### Common Networking Questions & Answers
-
-Difference between Stateful & Stateless Firewall?
 
 ### My Troubleshooting Flow
 -- Ping not working
-First check the phyiscal layer. Connections, cables, 
-Then check the ipconfig, ifconfig, DNS, adapter settings. 
-Then try to traceroute to multiple hops one by one. 
-Check Router ACLs or firewall policies. 
+-First check the phyiscal layer. Connections, cables, 
+-Then check the ipconfig, ifconfig, DNS, adapter settings. 
+-Then try to traceroute to multiple hops one by one. 
+-Check Router ACLs or firewall policies. 
 
--- Slow Network
+-- Slow Network (Wireshark, debug flow)
 
 ----------------------------
 
