@@ -279,7 +279,72 @@ GEthernet 100/1000 = .1 round off 1
 
 So we increase the reference bandwidth. 
 
+----------------------------
 
+## OSPF (Open Shortest Path First)
+
+### Overview
+- **Type:** Interior Gateway Protocol (IGP)
+- **Standard:** Open standard (vendor-neutral)
+- **Algorithm:** Link-state routing using Dijkstra algorithm
+- **Administrative Distance:** 110
+- **Key Feature:** End-to-end network visibility across the entire topology
+
+### Core Concepts
+
+**Configuration Model:**
+- Interfaces are configured for OSPF, not routers directly
+- Routers advertise interface reachability
+
+**Area Architecture:**
+- **Area 0 (Backbone Area):** The central hub connecting all areas; all inter-area traffic flows through it
+- **Normal Area:** Accepts redistributed routes from other routing protocols (BGP, EIGRP)
+- **Stub Area:** Rejects external route redistribution; reduces routing table size
+- **Totally Stubby Area:** Relies on default routes only; useful for spoke networks
+
+**Router Types:**
+- **ABR (Area Border Router):** Connects Area 0 to other areas; handles inter-area route summarization
+
+### Link State Advertisements (LSA)
+
+LSAs are routing updates that communicate network topology. Key types:
+
+| LSA Type | Advertised By | Purpose |
+|----------|---------------|---------|
+| Type 1 | All routers | Router-to-router connectivity within an area |
+| Type 2 | DR (Designated Router) | Network segment information for multi-access networks |
+| Type 3 | ABR | Inter-area route summarization |
+
+### OSPF Adjacency Requirements (STTAMP)
+
+Before two OSPF routers can exchange routing information, they must meet these criteria:
+
+| Criteria | Details |
+|----------|---------|
+| **S**ubnet | Subnet masks must match (same network segment) |
+| **T**imers | Hello and Dead timers must be identical |
+| **T**ype | Multicast addresses must match (224.0.0.5 for all routers, 224.0.0.6 for DR) |
+| **A**rea | Area ID and area type must match (Normal, Stub, Not-So-Stubby) |
+| **M**TU | Maximum Transmission Unit must be the same (typically 1500 bytes) |
+| **P**assword | Authentication passwords must match (Plain text or MD5 hash) |
+
+### OSPF Metrics (Cost Calculation)
+
+OSPF uses **cost** to determine the best path, not hop count.
+
+**Default Reference Bandwidth:** 100 Mbps
+
+**Formula:**
+```
+Cost = Reference Bandwidth / Interface Bandwidth
+```
+
+**Examples:**
+- Fast Ethernet (100 Mbps): 100 Mbps / 100 Mbps = **1**
+- Gigabit Ethernet (1000 Mbps): 100 Mbps / 1000 Mbps = **0.1** (rounded up to **1**)
+- T1 (1.544 Mbps): 100 Mbps / 1.544 Mbps = **64.8** (rounded to **65**)
+
+**Note:** For modern networks with high-speed links, increase the reference bandwidth to properly differentiate costs between 10G and 1G interfaces.
 
 
 
