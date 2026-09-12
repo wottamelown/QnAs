@@ -366,204 +366,223 @@ Last step if to add the installation targets and then install policy package.
 
 ### Frequently asked Q & As
 
-Q1. Walk me through the life of a packet from a client to a web server
-on the internet.
-A client creates an HTTP request → browser hands data to
-TCP → TCP segments it and starts a connection (3-way
-handshake) → data goes to IP for routing → Ethernet for
-framing → packet hits the default gateway → router checks
-routing table → sends it out to ISP → traverses multiple hops
-(BGP-based routing) → reaches server’s network → final router
-forwards to server → server’s NIC receives frame → passes up
-to IP/TCP → delivers to the web server app.
+Sorry about that. Here is the complete version with your original wording preserved, unnecessary spacing removed, and formatting optimized for a GitHub README.
 
-Q2. What is the logic behind using VLANs?
-VLANs logically separate broadcast domains on a switch.
-They reduce broadcast traffic, improve security by isolating
-departments or roles, and simplify network segmentation
-without needing separate physical switches.
+Network Engineer Interview Questions & Answers
 
-Q3. Explain the difference between access ports and trunk
-ports.
+# Network Engineer Interview Questions & Answers
 
-Access port: Carries traffic for a single VLAN. Used for
-end-user devices.
-Trunk port: Carries tagged traffic for multiple VLANs using
-802.1Q tags. Used between switches, firewalls, routers, or
-servers with VLAN-aware NICs.
+## Q1. Walk me through the life of a packet from a client to a web server on the Internet.
 
-Q4. What does a switch do when it receives a frame with
-an unknown destination MAC address?
-It floods the frame out all ports in the VLAN except the port it
-arrived on. When the device replies, the switch learns the
-MAC and populates its CAM table.
+A client creates an HTTP request → browser hands data to TCP → TCP segments it and starts a connection (3-way handshake) → data goes to IP for routing → Ethernet for framing → packet hits the default gateway → router checks routing table → sends it out to ISP → traverses multiple hops (BGP-based routing) → reaches server’s network → final router forwards to server → server’s NIC receives frame → passes up to IP/TCP → delivers to the web server app.
 
-Q5. How do you add a VLAN to a trunk port on a switch?
+## Q2. What is the logic behind using VLANs?
+
+VLANs logically separate broadcast domains on a switch. They reduce broadcast traffic, improve security by isolating departments or roles, and simplify network segmentation without needing separate physical switches.
+
+## Q3. Explain the difference between access ports and trunk ports.
+
+* **Access port:** Carries traffic for a single VLAN. Used for end-user devices.
+
+* **Trunk port:** Carries tagged traffic for multiple VLANs using 802.1Q tags. Used between switches, firewalls, routers, or servers with VLAN-aware NICs.
+
+## Q4. What does a switch do when it receives a frame with an unknown destination MAC address?
+
+It floods the frame out all ports in the VLAN except the port it arrived on. When the device replies, the switch learns the MAC and populates its CAM table.
+
+## Q5. How do you add a VLAN to a trunk port on a switch?
+
 On Cisco:
+
+```
 switchport trunk allowed vlan add <vlan-id>
-Or specify a list. Logic is: modify the allowed VLAN list so that
-tagged traffic for that VLAN is permitted across the trunk.
+```
 
-Q6. Describe how you would design a simple, resilient
-office network.
-● Redundant core switches in a stack or VSS/VPC.
-● Distribution and access layers with dual uplinks.
-● VLAN segmentation by department.
-● Firewall at the edge with a HA pair.
-● Redundant internet connections.
+Or specify a list.
 
-● DHCP, DNS, and authentication centralized.
-● Use spanning-tree enhancements (RSTP, root guard).
-● Use routing protocols or static routes depending on size.
+Logic: Modify the allowed VLAN list so that tagged traffic for that VLAN is permitted across the trunk.
 
-Q7. How many usable IP addresses are in a /28 network range?
+## Q6. Describe how you would design a simple, resilient office network.
+
+* Redundant core switches in a stack or VSS/VPC.
+
+* Distribution and access layers with dual uplinks.
+
+* VLAN segmentation by department.
+
+* Firewall at the edge with a HA pair.
+
+* Redundant Internet connections.
+
+* DHCP, DNS, and authentication centralized.
+
+* Use spanning-tree enhancements (RSTP, root guard).
+
+* Use routing protocols or static routes depending on size.
+
+## Q7. How many usable IP addresses are in a /28 network range?
+
 16 total → 14 usable (1 network address, 1 broadcast).
 
-Q8. Describe a complex networking problem you have solved and
-communicate with stakeholders.
-Example: “We had intermittent application drops. I traced it to
-asymmetric routing between two firewalls during a failover. I
-captured packets, compared flow tables, and implemented
-route adjustments. I kept stakeholders updated via short
-status summaries and avoided technical jargon so
-management understood impact and timelines.”
+## Q8. Describe a complex networking problem you have solved and communicate with stakeholders.
 
-Q9. Explain the TCP 3-way handshake.
-● SYN: Client requests a TCP session.
-● SYN-ACK: Server acknowledges and agrees to session.
-● ACK: Client acknowledges back → session established.
+Example:
 
-Q10. Tell me the common port numbers for core services and
-protocols.
-● HTTP 80
-● HTTPS 443
-● DNS 53
-● DHCP 67/68
-● SSH 22
+> “We had intermittent application drops. I traced it to asymmetric routing between two firewalls during a failover. I captured packets, compared flow tables, and implemented route adjustments. I kept stakeholders updated via short status summaries and avoided technical jargon so management understood impact and timelines.”
 
-● FTP 20/21
-● SMTP 25
-● RDP 3389
-● SNMP 161/162
+## Q9. Explain the TCP 3-way handshake.
+
+* **SYN:** Client requests a TCP session.
+
+* **SYN-ACK:** Server acknowledges and agrees to session.
+
+* **ACK:** Client acknowledges back → session established.
+
+## Q10. Tell me the common port numbers for core services and protocols.
+
+* HTTP — 80
+
+* HTTPS — 443
+
+* DNS — 53
+
+* DHCP — 67/68
+
+* SSH — 22
+
+* FTP — 20/21
+
+* SMTP — 25
+
+* RDP — 3389
+
+* SNMP — 161/162
 
 ICMP does not use port numbers, that was a trick question.
 
-Q11. Explain how you would configure firewall security policies.
-● Identify zones and interfaces.
-● Establish least-privilege rules: only needed ports, apps,
-and directions.
-● Add NAT rules if required.
-● Apply user IDs or groups if supported.
-● Configure logging and rule comments.
-● Test from low-impact users before full deployment.
-● Monitor hits to ensure rules work as expected.
+## Q11. Explain how you would configure firewall security policies.
 
-Q12. How does high availability work on Palo Alto firewalls?
-Two firewalls form an HA pair (active/passive or active/active).
-They synchronize configuration, sessions, and routing.
-Health-checking monitors interfaces and paths. If the active
-unit fails, the passive becomes active with minimal traffic
-disruption.
+* Identify zones and interfaces.
 
-Q13. Explain Phase 1 and Phase 2 of an IPsec VPN.
-● Phase 1 (IKE): Establishes a secure, authenticated control
-channel. Negotiates encryption, hashing, DH group,
-lifetime. Creates the IKE SA.
-● Phase 2 (IPsec): Negotiates data tunnel parameters
-(ESP/AH), encryption, selectors, lifetimes. Creates the
-IPsec SA used for actual traffic.
+* Establish least-privilege rules: only needed ports, apps, and directions.
 
-Q14. What is Policy-Based Forwarding (PBF) and what is it used for?
-PBF overrides normal routing decisions based on policy. You
-can force specific traffic (e.g., VoIP or backup circuits) to use
-a different gateway or path regardless of routing table
-preferences.
-Q15. Explain authentication and encryption in a wireless network.
-Authentication is handled via WPA2/3 using PSK or 802.1X with
-RADIUS. Encryption uses AES (CCMP) to protect data between
-client and AP. 802.1X creates unique session keys per user.
+* Add NAT rules if required.
 
-Q16. What is MPLS and the logic behind how it works?
-MPLS forwards packets using labels instead of full IP lookups.
-Provider routers push/pop/swap labels. It creates predictable
-paths and supports VPNs, traffic engineering, and QoS. It’s
-faster and more flexible than pure IP routing.
+* Apply user IDs or groups if supported.
 
-Q17. How do you monitor networks and what tools do you use?
-● SNMP/NetFlow for traffic and device health.
-● Syslog for event logging.
+* Configure logging and rule comments.
 
-● Tools: SolarWinds, PRTG, Zabbix, Cisco DNA, Palo Alto
-Panorama.
-● Packet captures when needed (Wireshark).
-● Alerts and dashboards for proactive monitoring.
+* Test from low-impact users before full deployment.
 
-Q18. A user could access an application yesterday but not today.
-How do you troubleshoot this?
-● Follow a layered approach:
-● Check if anyone else is affected.
-● Verify physical connectivity (cables, Wi-Fi, switchport).
-● Check IP addressing (DHCP, VLAN changes).
-● Ping gateway, then app server.
-● Verify DNS resolution.
-● Check firewall logs for denies.
-● Review recent network changes or patches.
+* Monitor hits to ensure rules work as expected.
 
-Q19. Explain the difference between MTU and MSS.
-● MTU: Maximum Layer-2 frame size (e.g., 1500 bytes for
-Ethernet).
-● MSS: TCP payload size after headers. Usually MTU – 40
-bytes. MSS ensures packets don’t exceed MTU to avoid
-fragmentation.
+## Q12. How does high availability work on Palo Alto firewalls?
 
-Q20. What is the difference between stateful and stateless
-firewalls?
-Stateful: Tracks sessions; only allows return traffic
-automatically.
+Two firewalls form an HA pair (active/passive or active/active). They synchronize configuration, sessions, and routing. Health-checking monitors interfaces and paths. If the active unit fails, the passive becomes active with minimal traffic disruption.
 
-Stateless: Only checks each packet individually against rules;
-doesn’t track sessions.
+## Q13. Explain Phase 1 and Phase 2 of an IPsec VPN.
 
-Q21. What is NAT and why do we use it?
-Network Address Translation converts private IPs to public IPs.
-Used for IPv4 conservation, security, and to hide internal
-addressing. Also used for inbound destination NATing to
-internal services.
+* **Phase 1 (IKE):** Establishes a secure, authenticated control channel. Negotiates encryption, hashing, DH group, lifetime. Creates the IKE SA.
 
-Q22. If you encounter an issue with a vendor's network device, what
-steps do you take?
-● Gather logs, config snippets, packet captures.
-● Reproduce the issue if possible.
-● Check release notes or known bugs.
-● Open a vendor case with detailed findings.
-● Implement workarounds until a fix or patch is provided.
-● Document everything for future reference.
-Q23. What is the difference between link-state and distance-vector
-routing protocols?
-● Link-state: Routers share full topology info (OSPF, IS-IS).
-Faster convergence, more scalable.
-● Distance-vector: Routers send route tables to neighbors
-(RIP). Slower convergence, simpler.
+* **Phase 2 (IPsec):** Negotiates data tunnel parameters (ESP/AH), encryption, selectors, lifetimes. Creates the IPsec SA used for actual traffic.
 
-Q24. Why might OSPF get stuck in EXSTART or 2-WAY state?
-● MTU mismatch.
-● Duplicate router IDs.
+## Q14. What is Policy-Based Forwarding (PBF) and what is it used for?
 
-● Point-to-multipoint network type issues.
-● DR/BDR election conditions not satisfied.
-● Misconfigured network types.
+PBF overrides normal routing decisions based on policy. You can force specific traffic (e.g., VoIP or backup circuits) to use a different gateway or path regardless of routing table preferences.
 
-Q25. Tell me about a time you went above and beyond in your role.
-Example: “A core switch failed after hours, impacting multiple
-departments. I stayed late, rebuilt the configuration from
-backups, repatched the stack, and validated routing. I also
-wrote a post-incident report so management clearly
-understood the root cause and corrective actions.”
+## Q15. Explain authentication and encryption in a wireless network.
 
-Q26. How would you prioritise between two tickets when one is a
-higher priority but you're already working on the other?
-Pause the lower-priority ticket, update notes, and switch to
-the higher-priority issue. Communicate to both requestors:
-notify the low-priority stakeholder of the delay and give an
-ETA, then focus on resolving the higher-priority issue first.
+Authentication is handled via WPA2/3 using PSK or 802.1X with RADIUS. Encryption uses AES (CCMP) to protect data between client and AP. 802.1X creates unique session keys per user.
+
+## Q16. What is MPLS and the logic behind how it works?
+
+MPLS forwards packets using labels instead of full IP lookups. Provider routers push/pop/swap labels. It creates predictable paths and supports VPNs, traffic engineering, and QoS. It’s faster and more flexible than pure IP routing.
+
+## Q17. How do you monitor networks and what tools do you use?
+
+* SNMP/NetFlow for traffic and device health.
+
+* Syslog for event logging.
+
+* Tools: SolarWinds, PRTG, Zabbix, Cisco DNA, Palo Alto Panorama.
+
+* Packet captures when needed (Wireshark).
+
+* Alerts and dashboards for proactive monitoring.
+
+## Q18. A user could access an application yesterday but not today. How do you troubleshoot this?
+
+Follow a layered approach:
+
+* Check if anyone else is affected.
+
+* Verify physical connectivity (cables, Wi-Fi, switchport).
+
+* Check IP addressing (DHCP, VLAN changes).
+
+* Ping gateway, then app server.
+
+* Verify DNS resolution.
+
+* Check firewall logs for denies.
+
+* Review recent network changes or patches.
+
+## Q19. Explain the difference between MTU and MSS.
+
+* **MTU:** Maximum Layer-2 frame size (e.g., 1500 bytes for Ethernet).
+
+* **MSS:** TCP payload size after headers. Usually MTU – 40 bytes. MSS ensures packets don’t exceed MTU to avoid fragmentation.
+
+## Q20. What is the difference between stateful and stateless firewalls?
+
+* **Stateful:** Tracks sessions; only allows return traffic automatically.
+
+* **Stateless:** Only checks each packet individually against rules; doesn’t track sessions.
+
+## Q21. What is NAT and why do we use it?
+
+Network Address Translation converts private IPs to public IPs. Used for IPv4 conservation, security, and to hide internal addressing. Also used for inbound destination NATing to internal services.
+
+## Q22. If you encounter an issue with a vendor's network device, what steps do you take?
+
+* Gather logs, config snippets, packet captures.
+
+* Reproduce the issue if possible.
+
+* Check release notes or known bugs.
+
+* Open a vendor case with detailed findings.
+
+* Implement workarounds until a fix or patch is provided.
+
+* Document everything for future reference.
+
+## Q23. What is the difference between link-state and distance-vector routing protocols?
+
+* **Link-state:** Routers share full topology info (OSPF, IS-IS). Faster convergence, more scalable.
+
+* **Distance-vector:** Routers send route tables to neighbors (RIP). Slower convergence, simpler.
+
+## Q24. Why might OSPF get stuck in EXSTART or 2-WAY state?
+
+* MTU mismatch.
+
+* Duplicate router IDs.
+
+* Point-to-multipoint network type issues.
+
+* DR/BDR election conditions not satisfied.
+
+* Misconfigured network types.
+
+## Q25. Tell me about a time you went above and beyond in your role.
+
+Example:
+
+> “A core switch failed after hours, impacting multiple departments. I stayed late, rebuilt the configuration from backups, repatched the stack, and validated routing. I also wrote a post-incident report so management clearly understood the root cause and corrective actions.”
+
+## Q26. How would you prioritise between two tickets when one is a higher priority but you're already working on the other?
+
+Pause the lower-priority ticket, update notes, and switch to the higher-priority issue. Communicate to both requestors: notify the low-priority stakeholder of the delay and give an ETA, then focus on resolving the higher-priority issue first.
 
