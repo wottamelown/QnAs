@@ -10,6 +10,7 @@ Quick reference guide for networking protocols, ports, and addressing.
 
 | Port | Protocol | Purpose | Transport | Notes |
 |------|----------|---------|-----------|-------|
+| 20/21 | FTP | Unencrypted file transfer | TCP | Fast & Basic |
 | 22 | SSH / SFTP | Encrypted remote access & file transfer | TCP | Replaces Telnet |
 | 23 | Telnet | Unencrypted remote access | TCP | **Deprecated** — use SSH instead |
 | 25 | SMTP | Mail transfer between servers | TCP | For server-to-server relay |
@@ -90,10 +91,7 @@ Quick reference guide for networking protocols, ports, and addressing.
 | 224.0.0.0 – 239.255.255.255 | Multicast |
 | 240.0.0.0 – 255.255.255.255 | Reserved for future use |
 
-### Common Networking Terms
 
-Broadcast Address: Used by Devices to send ARP (To discover Who has this IP address?) & DHCP (Client - Server DHCP DORA)
-DORA: (Discover, Offer, Request, Acknoledgement)
 
 # Life of a Packet
 
@@ -327,6 +325,61 @@ PC1 receives the response packet:
 - **Layer 3:** IP layer checks destination IP (matches local IP), passes to Layer 4
 - **Layer 4:** TCP layer checks destination port (54321 matches the outbound connection), reassembles data from multiple packets if needed
 - **Layer 7:** Application layer (browser) receives the complete HTTP response and renders the webpage
+
+
+### Common Networking Questions & Answers
+
+Difference between Stateful & Stateless Firewall?
+
+### My Troubleshooting Flow
+-- Ping not working
+First check the phyiscal layer. Connections, cables, 
+Then check the ipconfig, ifconfig, DNS, adapter settings. 
+Then try to traceroute to multiple hops one by one. 
+Check Router ACLs or firewall policies. 
+
+-- Slow Network
+
+### Routing Protocols
+
+### OSPF
+OSPF is an IGP routing protocol. It is an open standard. It is a link state routing protocol so it does have end to end visibility of complete network. It uses Dijkstra algorithm. Administrative Distance is 110. 
+We configure interfaces in the ports, not on the routers.
+Area 0 is the backbone area of the OSPF topology. So that other area routers could take the path from this area this would cause less bandwidth.
+Normal Area is redistribution of other BGP EIGRP protocols into the OSPF. 
+STUB Area is not allowing resdistribution of other areas into OSPF. 
+Totally STUBBY area is working on default routes so that they can forward the packets. 
+The router which is connected to the Area 0 router is called ABR (Area Border Router) 
+
+LSA - Link State Advertisements are generated through routers so that they could other paths. 
+LSA Type 1 adveertised by all the routers.
+LSA Type 2 (DR) designated router which is responsible for the area. Generates the network LSA. 
+LSA Type 3 used by ABR to summarize the network path.
+
+
+We have 
+
+If we want to configure OSPF adjacency we need to see the STTAMP first.
+S - Subnet should be same
+T - Timers (Hello/Dead) timers should be same
+T - Type (Multicast - 224.0.0.5 or 224.0.0.6)
+A - Area ID / Type (Normal, stub, not so stubby)
+M - MTU (1500 bytes) should be same
+P - Password (Authentication) should be same. Either Plain Text or MD5. 
+
+-- OSPF Metrics --
+For a path selection OSPF uses cost. 
+By default is 100MBPS. 
+
+Reference Bandwidth / Int Bandwidth 
+for example 100MBPS/Fast Ether 100MBPS = 1
+
+GEthernet 100/1000 = .1 round off 1 
+
+So we increase the reference bandwidth. 
+
+
+
 
 
 
