@@ -241,45 +241,11 @@ Check Router ACLs or firewall policies.
 
 -- Slow Network
 
+----------------------------
+
 ### Routing Protocols
 
-### OSPF
-OSPF is an IGP routing protocol. It is an open standard. It is a link state routing protocol so it does have end to end visibility of complete network. It uses Dijkstra algorithm. Administrative Distance is 110. 
-We configure interfaces in the ports, not on the routers.
-Area 0 is the backbone area of the OSPF topology. So that other area routers could take the path from this area this would cause less bandwidth.
-Normal Area is redistribution of other BGP EIGRP protocols into the OSPF. 
-STUB Area is not allowing resdistribution of other areas into OSPF. 
-Totally STUBBY area is working on default routes so that they can forward the packets. 
-The router which is connected to the Area 0 router is called ABR (Area Border Router) 
 
-LSA - Link State Advertisements are generated through routers so that they could other paths. 
-LSA Type 1 adveertised by all the routers.
-LSA Type 2 (DR) designated router which is responsible for the area. Generates the network LSA. 
-LSA Type 3 used by ABR to summarize the network path.
-
-
-We have 
-
-If we want to configure OSPF adjacency we need to see the STTAMP first.
-S - Subnet should be same
-T - Timers (Hello/Dead) timers should be same
-T - Type (Multicast - 224.0.0.5 or 224.0.0.6)
-A - Area ID / Type (Normal, stub, not so stubby)
-M - MTU (1500 bytes) should be same
-P - Password (Authentication) should be same. Either Plain Text or MD5. 
-
--- OSPF Metrics --
-For a path selection OSPF uses cost. 
-By default is 100MBPS. 
-
-Reference Bandwidth / Int Bandwidth 
-for example 100MBPS/Fast Ether 100MBPS = 1
-
-GEthernet 100/1000 = .1 round off 1 
-
-So we increase the reference bandwidth. 
-
-----------------------------
 
 ## OSPF (Open Shortest Path First)
 
@@ -319,6 +285,7 @@ LSAs are routing updates that communicate network topology. Key types:
 
 Before two OSPF routers can exchange routing information, they must meet these criteria:
 
+((((STTAMP))))
 | Criteria | Details |
 |----------|---------|
 | **S**ubnet | Subnet masks must match (same network segment) |
