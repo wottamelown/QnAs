@@ -487,7 +487,7 @@ Follow a layered approach:
 
 * **Stateful:** Tracks sessions; only allows return traffic automatically.
 
-* **Stateless:** Only checks each packet individually against rules; doesn’t track sessions.
+* **Stateless:** Only checks each packet individually against rules; doesn’t track sessions. Source IP Dest IP.
 
 ## Q21. What is NAT and why do we use it?
 
@@ -535,7 +535,71 @@ Example:
 
 Pause the lower-priority ticket, update notes, and switch to the higher-priority issue. Communicate to both requestors: notify the low-priority stakeholder of the delay and give an ETA, then focus on resolving the higher-priority issue first.
 
+### Q26. What is Port Security explain with types and violations?
 
+Port Security is a Layer 2 Cisco switch feature that restricts access to a switch port based on MAC addresses. It prevents unauthorized devices from connecting and helps protect against MAC flooding attacks.
+
+
+## Types of Secure MAC Address Learning
+
+| Type | Description |
+|------|-------------|
+| **Static** | Administrator manually configures the permitted MAC address |
+| **Dynamic** | Switch automatically learns MAC addresses, but they are not saved in the configuration |
+| **Sticky** | Switch automatically learns MAC addresses and adds them to the running configuration; can be saved to startup configuration |
+
+## Port Security Violation Modes
+
+| Mode | Action |
+|------|--------|
+| **Protect** | Drops unauthorized frames silently |
+| **Restrict** | Drops unauthorized frames and increments the violation counter; logging or SNMP notifications may occur |
+| **Shutdown** ERR Disable | Places the port into an error-disabled state (default mode on many Cisco switches) |
+
+### Q27. Difference b/w Explicit Rule & Implicit Rule?
+
+ - Explicit rule: A rule you manually configure in the firewall to allow or deny specific traffic.
+ - Implicit rule: A hidden/default rule automatically applied when no explicit rule matches.
+
+### Q28. How STP avoids Looping?
+
+ - Switches elect a Root Bridge.
+ - Each switch selects its best path toward the Root Bridge.
+ - STP puts redundant ports/links into a Blocking state.
+ - If the active path fails, STP can unblock the backup path.
+
+### Q29. How Cisco FTD is different from Cisco ASA?
+
+Cisco ASA is the traditional Cisco stateful firewall platform, mainly focused on network security and firewall functions. Cisco FTD is Cisco's modern Next-Generation Firewall software that combines stateful firewalling with IPS, application control, URL filtering, and other advanced security features.
+
+### Explain TCP Header?
+
+ - TCP Header — Key Fields
+ - Source Port: Port number of the sending application.
+ - Destination Port: Port number of the receiving application.
+ - Sequence Number: Identifies the position of data in the TCP stream.
+ - Acknowledgment Number: Indicates the next byte the sender expects to receive.
+ - Header Length (Data Offset): Indicates where the TCP data begins.
+ - Flags: Control the TCP connection, such as:
+ -  - SYN – Start connection
+ -  - ACK – Acknowledge data
+ -  - FIN – Gracefully close connection
+ -  - RST – Immediately reset connection
+ -  - PSH – Push data to application
+ -  - URG – Urgent data
+ - Checksum: Detects errors/corruption in the TCP segment.
+
+### What is SD-WAN, explain Underlay & Overlay.
+
+SD-WAN is a modern WAN architecture  that uses centralized management, secure overlays, application aware decision making, segmentation of the WAN traffic. 
+
+The underlay is the underlying transport network such as MPLS, Internet, fiber or 5G, while the overlay is the logical network built on top of it, typically using encrypted tunnels. SD-WAN uses the overlay to apply policies and dynamically select the best available underlay path based on link performance.
+
+### Explain STP
+
+STP is spanning tree protocol, prevents loop in multiple switches or two switches having redundant links. It stops parallel redundant forwarding. There is to TTL in ethernet frames. Like packet. 
+
+To prevent this the Switches does Election, this happens on Bridge ID of switches. 
 
 ---------------------------------------------------------------------------
 
@@ -750,3 +814,15 @@ Code
 - Assign to device groups for deployment
 
 ---
+
+### FortiAnalyzer
+
+ - Once we boot into the FortiAnalyzer, we can see the following
+ - FortiView: Summary of SOC, Dashboards, Network Security, System Performance.
+ - Log View: Central Area to view logs from all the Foritgates or other devices.
+ - Fabric View: Configure fabric connectors, view security fabric ratings.
+ - FortiSOC: A subscription paid that enables playbook automation for security operations. A common FortiSOAR playbook is automated malicious-IP response. When FortiAnalyzer/FortiGate generates a security event, FortiSOAR extracts the source IP, checks its reputation, and if it's malicious, automatically blocks the IP on FortiGate, updates the incident, and notifies the SOC analyst.
+ - Reports: Generate reports according to modules.
+
+ - We need to generate the logs so we enable security sessions in firewall policy.
+ - 
