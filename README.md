@@ -599,7 +599,11 @@ The underlay is the underlying transport network such as MPLS, Internet, fiber o
 
 STP is spanning tree protocol, prevents loop in multiple switches or two switches having redundant links. It stops parallel redundant forwarding. There is to TTL in ethernet frames. Like packet. 
 
-To prevent this the Switches does Election, this happens on Bridge ID of switches. 
+To prevent this the Switches does Election, this happens on Bridge ID of switches. Lowesr Bridge ID becomes Root Switch. 
+
+Once the election happens, the port connected towards to the Root Switch becomes root port on other switches. 
+
+After Election, The rest switches calculate their root ports. The one with lowest bridge ID then will win the election and have designated ports. the lowest will have blocked ports. 
 
 ---------------------------------------------------------------------------
 
