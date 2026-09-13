@@ -95,6 +95,9 @@ Quick reference guide for networking protocols, ports, and addressing.
 Broadcast Address: Used by Devices to send ARP (To discover Who has this IP address?) & DHCP (Client - Server DHCP DORA)
 DORA: (Discover, Offer, Request, Acknoledgement)
 
+<img width="936" height="1074" alt="image" src="https://github.com/user-attachments/assets/735fd621-5d5a-4184-b420-4b0ce66520b3" />
+
+
 ## Life Of A Packet
 
 ### Scenario: PC1 → Web Server (Internet)
