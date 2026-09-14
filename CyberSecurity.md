@@ -20,16 +20,12 @@
 
 - **Confidentiality**: Data should only be accessible to authorized users
   - Controls: Encryption, access controls, authentication
-  - Example: Encrypting customer data at rest and in transit
   
 - **Integrity**: Data must not be modified without authorization
   - Controls: Digital signatures, hashing, checksums, database constraints
-  - Example: Using HMAC to verify API requests haven't been tampered with
   
 - **Availability**: Systems must be accessible when needed
   - Controls: Redundancy, load balancing, DDoS mitigation, disaster recovery
-  - Example: Multi-region failover to ensure 99.99% uptime
-
 
 
 ### Zero Trust Architecture
