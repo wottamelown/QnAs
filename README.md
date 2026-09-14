@@ -390,25 +390,6 @@ Example:
 
 * **ACK:** Client acknowledges back → session established.
 
-## Q10. Tell me the common port numbers for core services and protocols.
-
-* HTTP — 80
-
-* HTTPS — 443
-
-* DNS — 53
-
-* DHCP — 67/68
-
-* SSH — 22
-
-* FTP — 20/21
-
-* SMTP — 25
-
-* RDP — 3389
-
-* SNMP — 161/162
 
 ICMP does not use port numbers, that was a trick question.
 
@@ -574,6 +555,657 @@ Port Security is a Layer 2 Cisco switch feature that restricts access to a switc
 ### Q29. How Cisco FTD is different from Cisco ASA?
 
 Cisco ASA is the traditional Cisco stateful firewall platform, mainly focused on network security and firewall functions. Cisco FTD is Cisco's modern Next-Generation Firewall software that combines stateful firewalling with IPS, application control, URL filtering, and other advanced security features.
+
+---
+
+## 1. Networking Fundamentals
+
+### Q27. What is the difference between a router and a firewall?
+
+A router primarily forwards traffic between networks, while a firewall controls traffic based on security policies and can inspect sessions, applications, and threats.
+
+### Q28. What is a stateful firewall?
+
+It maintains a session table and understands the state of connections. Return traffic is allowed based on an established session rather than treating every packet independently.
+
+### Q29. What is the difference between TCP and UDP?
+
+TCP is connection-oriented and reliable; UDP is connectionless and faster but does not guarantee delivery.
+
+### Q30. Explain the TCP three-way handshake.
+
+Client sends SYN → server responds SYN-ACK → client sends ACK. The TCP session is then established.
+
+### Q31. What happens when a user accesses https://google.com?
+
+DNS resolves the domain → client establishes TCP connection → TLS handshake occurs → HTTP request is sent → server responds.
+
+### Q32. What is ARP?
+
+ARP maps an IPv4 address to a MAC address on the local network.
+
+### Q33. What is the difference between Layer 2 and Layer 3?
+
+Layer 2 handles frames and MAC addresses; Layer 3 handles packets and IP addresses.
+
+### Q34. What is VLAN?
+
+VLANs logically separate a physical switch into multiple Layer 2 networks.
+
+### Q35. What is a trunk port?
+
+A trunk carries traffic for multiple VLANs, usually using 802.1Q tagging.
+
+### Q36. What is NAT?
+
+NAT translates one IP address space into another, commonly private IPs into a public IP for Internet access.
+
+---
+
+## 2. Firewall Questions
+
+### Q37. What is the difference between SNAT and DNAT?
+
+SNAT changes the source IP, commonly for outbound Internet access. DNAT changes the destination IP, commonly for publishing internal servers.
+
+### Q38. What is a firewall security policy?
+
+It defines which traffic is allowed or denied based on parameters such as source, destination, service, interface, and application.
+
+### Q39. What is the difference between deny and implicit deny?
+
+An explicit deny is a configured rule. Implicit deny means traffic that doesn't match an allow rule is denied by default.
+
+### Q40. What is security policy order?
+
+Firewalls generally evaluate policies from top to bottom, and the first matching policy is applied.
+
+### Q41. What is deep packet inspection?
+
+It examines packet or session contents beyond basic IP and port information to identify applications, threats, or unwanted content.
+
+### Q42. What is SSL inspection?
+
+The firewall decrypts encrypted traffic, inspects it, and then re-encrypts it before forwarding it.
+
+### Q43. What is IPS?
+
+Intrusion Prevention System detects malicious traffic and can actively block or drop it.
+
+### Q44. What is IDS?
+
+Intrusion Detection System detects suspicious activity but normally does not block the traffic.
+
+### Q45. What is the difference between IPS and firewall?
+
+A firewall primarily controls access, while IPS analyzes traffic for attack patterns and malicious behavior.
+
+### Q46. What is application control?
+
+It identifies applications such as YouTube, BitTorrent, or Teams and allows or blocks them based on policy.
+
+---
+
+## 3. VPN
+
+### Q47. What is an IPsec VPN?
+
+IPsec provides encrypted and authenticated communication over an untrusted network such as the Internet.
+
+### Q48. Site-to-site vs remote-access VPN?
+
+Site-to-site connects networks together; remote-access VPN connects individual users to a corporate network.
+
+### Q49. What is an IPsec tunnel?
+
+It is an encrypted tunnel between two endpoints that protects traffic traveling across an untrusted network.
+
+### Q50. What are Phase 1 and Phase 2 in IPsec?
+
+Phase 1 establishes a secure management channel; Phase 2 negotiates the actual IPsec tunnel and traffic protection.
+
+### Q51. What would you check if an IPsec VPN is down?
+
+Check peer reachability, proposals, PSK/certificates, IKE settings, NAT, firewall policies, routing, and VPN logs.
+
+### Q52. SSL VPN vs IPsec VPN?
+
+IPsec operates at the network layer and is commonly used for site-to-site connectivity. SSL VPN commonly provides remote-user access through TLS.
+
+---
+
+## 4. Routing
+
+### Q53. What is static routing?
+
+A manually configured route that tells the device where to forward traffic.
+
+### Q54. What is dynamic routing?
+
+Routers automatically exchange routing information and dynamically calculate reachable networks.
+
+### Q55. What is BGP?
+
+BGP is a path-vector routing protocol used primarily to exchange routes between autonomous systems.
+
+### Q56. What is an Autonomous System?
+
+A network or group of networks under a common routing policy, identified by an ASN.
+
+### Q57. What is the difference between eBGP and iBGP?
+
+eBGP runs between different AS numbers; iBGP runs within the same AS.
+
+### Q58. What is BGP mainly used for?
+
+Internet routing, ISP connectivity, multi-homing, and exchanging routes between different organizations.
+
+### Q59. What is SD-WAN?
+
+SD-WAN centrally manages WAN connectivity and can dynamically select paths based on application, latency, loss, and link quality.
+
+### Q60. What is the benefit of SD-WAN?
+
+Better WAN visibility, centralized management, application-aware routing, and the ability to use multiple links efficiently.
+
+---
+
+## 5. Network Security
+
+### Q61. What is network segmentation?
+
+Dividing a network into separate security zones to limit communication and reduce the impact of a compromise.
+
+### Q62. What is micro-segmentation?
+
+More granular segmentation that applies security controls to individual workloads, applications, or hosts.
+
+### Q63. What is DMZ?
+
+A separate network zone used for publicly accessible services while isolating them from the internal network.
+
+### Q64. Why should servers not be directly exposed to the Internet?
+
+It increases the attack surface. Public services should be isolated and protected using controls such as firewalls, reverse proxies, and WAFs.
+
+### Q65. What is a WAF?
+
+Web Application Firewall protects web applications against attacks such as SQL injection and cross-site scripting.
+
+### Q66. WAF vs firewall?
+
+A network firewall primarily controls network traffic, while a WAF specifically understands and protects HTTP/HTTPS applications.
+
+### Q67. What is Zero Trust?
+
+Never automatically trust a user or device; continuously verify identity, device, context, and access.
+
+### Q68. What is least privilege?
+
+Give users and systems only the minimum access required to perform their job.
+
+---
+
+## 6. Authentication & Access
+
+### Q69. What is 802.1X?
+
+It provides port-based network access control and typically uses a supplicant, authenticator, and RADIUS server.
+
+### Q70. What is RADIUS?
+
+A centralized AAA protocol commonly used for network authentication and authorization.
+
+### Q71. What is AAA?
+
+Authentication verifies identity, Authorization determines permissions, and Accounting records activity.
+
+### Q72. RADIUS vs TACACS+?
+
+RADIUS is commonly used for network access authentication, while TACACS+ is widely used for administrative access to network devices and separates authentication, authorization, and accounting.
+
+---
+
+## 7. Troubleshooting Questions
+
+### Q73. A user cannot access the Internet. What do you check?
+
+Check IP configuration → gateway → DNS → routing → firewall policy → NAT → upstream connectivity.
+
+### Q74. A user can ping 8.8.8.8 but cannot browse websites. What could be wrong?
+
+Most likely DNS resolution, HTTP/HTTPS filtering, proxy configuration, or SSL inspection.
+
+### Q75. A user can access internal servers but not the Internet. What do you check?
+
+Default route, firewall policy, NAT, WAN interface, and upstream connectivity.
+
+### Q76. Internet works by IP but not by hostname. What is the likely issue?
+
+DNS.
+
+### Q77. VPN is connected but the user cannot access an internal server. What do you check?
+
+VPN routes, firewall policy, split tunneling, return route, NAT, and access rules.
+
+### Q78. A server is reachable internally but not from the Internet. What do you check?
+
+Public DNS, NAT/DNAT, firewall policy, server listening port, routing, and upstream firewall/security controls.
+
+### Q79. How do you troubleshoot packet loss?
+
+Use ping and traceroute, then check interfaces, errors, utilization, latency, WAN links, routing, and firewall logs.
+
+### Q80. How do you troubleshoot high latency?
+
+Check the path with traceroute, interface utilization, packet loss, WAN performance, routing, and overloaded devices.
+
+---
+
+## 8. Security Incident Questions
+
+### Q81. What would you do if you detect a compromised workstation?
+
+Isolate the endpoint, investigate logs and indicators of compromise, identify the attack vector, contain the threat, remediate, and monitor.
+
+### Q82. What would you do if a firewall detects a critical attack?
+
+Validate the alert, identify the source and target, block or contain the traffic if necessary, investigate logs, and escalate according to the incident process.
+
+### Q83. What is an IOC?
+
+Indicator of Compromise—evidence such as malicious IPs, domains, hashes, or unusual processes associated with an attack.
+
+### Q84. What is SIEM?
+
+A Security Information and Event Management system that collects, correlates, and analyzes logs to detect security incidents.
+
+### Q85. Why are firewall logs important?
+
+They help identify allowed and blocked traffic, troubleshoot connectivity, detect attacks, and investigate incidents.
+
+---
+
+## 9. FortiGate-Specific Questions
+
+### Q86. What is FortiGate?
+
+A next-generation firewall providing firewalling, VPN, IPS, application control, web filtering, SD-WAN, and other security functions.
+
+### Q87. What is FortiManager?
+
+A centralized management platform for managing multiple FortiGate devices and their configurations and policies.
+
+### Q88. What is FortiAnalyzer?
+
+A centralized logging, analytics, reporting, and security-event analysis platform for Fortinet devices.
+
+### Q89. What is FortiGuard?
+
+Fortinet's security intelligence service providing services such as IPS signatures, web filtering, application control, and threat intelligence.
+
+### Q90. How do you troubleshoot a FortiGate policy issue?
+
+Check policy order, source/destination, service, NAT, routing, logs, and use packet-flow/debug tools if required.
+
+### Q91. What is FortiGate flow-based inspection?
+
+Traffic is inspected as it flows through the firewall without fully reconstructing the entire session like proxy-based inspection.
+
+### Q92. What is proxy-based inspection?
+
+FortiGate acts as an intermediary, reconstructing and inspecting traffic before forwarding it.
+
+### Q93. What is FortiGate SD-WAN?
+
+It intelligently selects WAN paths based on configured rules and link-health metrics such as latency, jitter, and packet loss.
+
+---
+
+## 10. Scenario Questions — Very Important
+
+These are worth practicing out loud. Senior interviews often move from definitions to scenarios.
+
+### Q94. A branch suddenly loses connectivity to HQ. What do you check?
+
+Check WAN link → tunnel status → routing → firewall policies → SD-WAN health → logs → ISP connectivity.
+
+### Q95. Users complain that the Internet is slow. How do you investigate?
+
+Check WAN utilization, packet loss, latency, firewall CPU/memory, top applications, security inspection load, and ISP performance.
+
+### Q96. A firewall policy is allowing traffic but the application still doesn't work. Why?
+
+Routing, NAT, return path, application dependencies, SSL inspection, DNS, or server-side issues could be involved.
+
+### Q97. You see repeated connections from an unknown IP to an internal server. What do you do?
+
+Identify the source, destination, port, and traffic pattern; check logs and threat intelligence, then block or contain it if malicious.
+
+### Q98. How would you secure a new Internet-facing web server?
+
+Place it in a DMZ, restrict firewall access, use DNAT/reverse proxy/WAF, enable monitoring and logging, harden the server, and allow only required ports.
+
+### Q99. Management asks you to connect 100 branches securely. What would you propose?
+
+Consider SD-WAN with centralized management, encrypted tunnels, segmentation, application-aware routing, and centralized security policies.
+
+### Q100. How would you prevent branch-to-branch communication if branches only need to access HQ?
+
+Use hub-and-spoke connectivity and firewall policies that allow branch-to-HQ traffic while denying branch-to-branch traffic.
+
+### Q101. How do you approach a security design?
+
+First understand requirements and traffic flows, identify risks, design segmentation and security controls, implement least privilege, then monitor and test.
+
+---
+
+## Interview Formulas to Remember
+
+**For troubleshooting questions:**
+Scope → Connectivity → Routing → Policy → NAT → Security → Logs
+
+Code
+
+**For security design questions:**
+Requirements → Segmentation → Least Privilege → Security Controls → Monitoring → Testing
+
+Code
+
+**For incident questions:**
+Detect → Validate → Contain → Investigate → Remediate → Monitor
+
+Code
+
+These structures will make your answers sound much more senior even when you keep them short.
+
+---
+
+## Advanced Network Security Questions
+
+### Q102. What is a Next-Generation Firewall (NGFW)?
+
+A firewall that combines traditional firewalling with features such as application control, IPS, web filtering, and user-based security.
+
+### Q103. What is a security zone?
+
+A logical network segment with a defined security level and access policy, such as LAN, DMZ, and WAN.
+
+### Q104. Why do we use a DMZ?
+
+To isolate Internet-facing systems from the internal network and reduce the impact of a compromise.
+
+### Q105. What is defense in depth?
+
+Using multiple security controls so that if one control fails, others still provide protection.
+
+### Q106. What is a firewall's default-deny approach?
+
+Deny all traffic by default and explicitly allow only the traffic that is required.
+
+### Q107. What is an allowlist vs blocklist?
+
+An allowlist permits only approved traffic; a blocklist denies known unwanted traffic.
+
+### Q108. What is east-west traffic?
+
+Traffic between internal systems, such as server-to-server or branch-to-branch traffic.
+
+### Q109. What is north-south traffic?
+
+Traffic entering or leaving the network, such as users accessing the Internet.
+
+---
+
+## Network Attacks
+
+### Q110. What is a DoS attack?
+
+An attack that attempts to make a service unavailable by exhausting its resources.
+
+### Q111. What is a DDoS attack?
+
+A DoS attack launched from multiple distributed sources.
+
+### Q112. What is ARP spoofing?
+
+An attacker sends fake ARP information to associate their MAC address with another device's IP address.
+
+### Q113. How can you protect against ARP spoofing?
+
+Use features such as Dynamic ARP Inspection, DHCP Snooping, and proper Layer 2 segmentation.
+
+### Q114. What is MAC flooding?
+
+An attack that floods a switch with fake MAC addresses to potentially force traffic flooding.
+
+### Q115. How do you protect against MAC flooding?
+
+Enable switch port security and limit the number of MAC addresses allowed on a port.
+
+### Q116. What is VLAN hopping?
+
+An attack where traffic escapes its intended VLAN and reaches another VLAN.
+
+### Q117. How do you prevent VLAN hopping?
+
+Disable unnecessary trunking, explicitly configure trunk ports, avoid using VLAN 1 where practical, and restrict allowed VLANs.
+
+### Q118. What is DHCP starvation?
+
+An attacker sends many DHCP requests to exhaust the available DHCP addresses.
+
+### Q119. How do you prevent DHCP starvation?
+
+Use DHCP Snooping and switch port security/rate limiting.
+
+---
+
+## Access Control & Network Security
+
+### Q120. What is NAC?
+
+Network Access Control verifies users and devices before allowing them onto the network.
+
+### Q121. What is the purpose of 802.1X?
+
+To authenticate a device or user before granting network access.
+
+### Q122. What happens if 802.1X authentication fails?
+
+The device can be denied access or placed into a restricted/quarantine VLAN depending on the configuration.
+
+### Q123. What is MAB?
+
+MAC Authentication Bypass allows devices that cannot perform 802.1X, such as printers, to authenticate using their MAC address.
+
+### Q124. Why is MAB less secure than 802.1X?
+
+MAC addresses can be spoofed, while 802.1X provides stronger identity-based authentication.
+
+---
+
+## Encryption & Certificates
+
+### Q125. What is symmetric encryption?
+
+The same key is used for encryption and decryption.
+
+### Q126. What is asymmetric encryption?
+
+It uses a public/private key pair.
+
+### Q127. Why is asymmetric encryption used in TLS?
+
+Mainly to authenticate endpoints and securely establish keys; symmetric encryption is then used for efficient data encryption.
+
+### Q128. What is a digital certificate?
+
+It binds an identity to a public key and is digitally signed by a trusted Certificate Authority.
+
+### Q129. What is PKI?
+
+Public Key Infrastructure manages certificates, keys, Certificate Authorities, and certificate trust.
+
+### Q130. What happens during a TLS handshake?
+
+The client and server negotiate security parameters, authenticate the server using its certificate, establish session keys, and then encrypt application traffic.
+
+---
+
+## IPS / IDS / Threat Detection
+
+### Q131. What is a signature-based detection?
+
+It identifies known threats by matching known attack patterns or signatures.
+
+### Q132. What is anomaly-based detection?
+
+It identifies behavior that deviates from an established normal baseline.
+
+### Q133. What is a false positive?
+
+Legitimate activity incorrectly identified as malicious.
+
+### Q134. What is a false negative?
+
+Malicious activity that the security system fails to detect.
+
+### Q135. What is IPS tuning?
+
+Adjusting signatures, thresholds, and policies to reduce false positives while maintaining effective detection.
+
+---
+
+## Proxy / Web Security
+
+### Q136. What is a forward proxy?
+
+It acts on behalf of internal users when they access external resources.
+
+### Q137. What is a reverse proxy?
+
+It sits in front of servers and handles incoming client requests before forwarding them to backend servers.
+
+### Q138. Forward proxy vs reverse proxy?
+
+Forward proxy protects/controls clients; reverse proxy protects and publishes backend servers.
+
+### Q139. What is URL filtering?
+
+Controlling access to websites based on URLs or website categories.
+
+### Q140. Why use a proxy instead of allowing direct Internet access?
+
+It provides centralized visibility, filtering, authentication, logging, and security inspection.
+
+---
+
+## DNS Security
+
+### Q141. What is DNS poisoning?
+
+Manipulating DNS responses so users are redirected to an incorrect or malicious destination.
+
+### Q142. What is DNS tunneling?
+
+Using DNS queries and responses to covertly transfer data, often for command-and-control or data exfiltration.
+
+### Q143. How can DNS tunneling be detected?
+
+Monitor unusual DNS query frequency, long/random domains, abnormal record types, and suspicious destinations.
+
+### Q144. What is DNS filtering?
+
+Blocking access to malicious or unwanted domains based on threat intelligence or category.
+
+---
+
+## Zero Trust & Modern Security
+
+### Q145. What are the main principles of Zero Trust?
+
+Verify explicitly, use least privilege, and assume breach.
+
+### Q146. What is SASE?
+
+A cloud-delivered architecture combining networking and security services such as SD-WAN, SWG, CASB, and ZTNA.
+
+### Q147. What is ZTNA?
+
+Zero Trust Network Access provides application-level access based on verified identity, device, and context rather than giving broad network access.
+
+### Q148. ZTNA vs traditional VPN?
+
+VPN generally provides network-level access; ZTNA provides controlled access to specific applications.
+
+### Q149. What is CASB?
+
+Cloud Access Security Broker provides visibility and security controls for cloud applications and services.
+
+---
+
+## Security Monitoring
+
+### Q150. What is NetFlow?
+
+It provides metadata about network conversations, such as source, destination, ports, and volume, without capturing the full packet.
+
+### Q151. NetFlow vs packet capture?
+
+NetFlow provides traffic metadata; packet capture provides the actual packet contents.
+
+### Q152. What is a SOC?
+
+A Security Operations Center monitors, detects, investigates, and responds to security incidents.
+
+### Q153. What is SOAR?
+
+Security Orchestration, Automation and Response automates security workflows and incident-response actions.
+
+### Q154. What is threat intelligence?
+
+Information about known or emerging threats, such as malicious IPs, domains, hashes, and attacker techniques.
+
+---
+
+## Advanced Scenario Questions
+
+### Q155. You see a large amount of outbound traffic from one workstation. What do you check?
+
+Identify the destination, application, user, process, traffic volume, firewall logs, and endpoint alerts to determine whether it is legitimate or data exfiltration.
+
+### Q156. A firewall is showing thousands of blocked connections from one IP. What do you do?
+
+Identify the source and target, check the pattern and threat intelligence, confirm whether it's scanning or an attack, and block or rate-limit it if necessary.
+
+### Q157. An internal server is communicating with a known malicious IP. What do you do?
+
+Isolate the server if necessary, block the destination, investigate the endpoint and firewall logs, identify the compromise, and remediate it.
+
+### Q158. How would you secure a branch office?
+
+Firewall at the edge, secure VPN/SD-WAN to HQ, VLAN segmentation, secure Wi-Fi, endpoint protection, least-privilege policies, logging, and centralized monitoring.
+
+### Q159. How would you secure an Internet-facing application?
+
+Put it behind a firewall/reverse proxy/WAF, expose only required ports, use TLS, harden the server, monitor logs, and restrict backend access.
+
+### Q160. How would you investigate a suspected data exfiltration incident?
+
+Identify the affected endpoint, review DNS/firewall/proxy/NetFlow logs, identify the destination and volume, inspect endpoint activity, contain the system, and preserve evidence.
+
+### Q161. What would you check before implementing a new firewall rule?
+
+Business requirement, source, destination, ports, protocol, direction, security zone, NAT, logging, and whether the rule can be restricted further.
+
+### Q162. How do you make sure a firewall rule is secure?
+
+Follow least privilege: specific source, destination, service, and users where possible, with logging enabled and unnecessary access removed.
+
+### Q163. What is your approach when troubleshooting a security incident?
+
+Identify → Validate → Contain → Investigate → Remediate → Monitor.
 
 ### Explain TCP Header?
 
