@@ -304,3 +304,45 @@ A: Define clear traffic ownership and security responsibilities, document inspec
 **Q47. What would you check before migrating Internet security from FortiGate to FortiSASE?**
 
 A: Traffic flows, applications, existing policies, identity integration, certificates, routing, bandwidth, compliance requirements, exclusions, logging, and rollback procedures.
+
+## 9. Branch On-Ramp
+
+**Q48. What is FortiSASE Branch On-Ramp?**
+
+A: Branch On-Ramp allows branch devices, such as FortiGate or supported third-party devices, to connect to FortiSASE Security PoPs using secure connectivity, extending FortiSASE services to branch locations.
+
+**Q49. What problem does Branch On-Ramp solve?**
+
+A: It allows branch users and devices to use FortiSASE security services without requiring all traffic to pass through a central headquarters firewall.
+
+**Q50. How does a FortiGate branch connect to FortiSASE Branch On-Ramp?**
+
+A: The branch FortiGate establishes an IPsec tunnel to a FortiSASE Branch On-Ramp Security PoP. The corresponding IPsec settings must be configured on both sides.
+
+**Q51. What is the role of BGP in Branch On-Ramp?**
+
+A: BGP exchanges routing information between the branch FortiGate and FortiSASE, allowing each side to learn reachable networks dynamically.
+
+**Q52. What type of BGP is supported between FortiGate branch devices and Branch On-Ramp?**
+
+A: For FortiGate branch devices, iBGP is supported between the branch devices and the Branch On-Ramp Security PoP.
+
+**Q53. Can third-party routers use Branch On-Ramp?**
+
+A: Yes, supported third-party IPsec devices can connect. In the documented Branch On-Ramp design, static routing is used because BGP is not supported for third-party branch devices.
+
+**Q54. What is the difference between Branch On-Ramp and a normal site-to-site VPN?**
+
+A: A normal site-to-site VPN primarily connects networks. Branch On-Ramp integrates branch connectivity with FortiSASE's cloud security and SD-WAN architecture.
+
+**Q55. What must be configured on the branch FortiGate?**
+
+A: IPsec parameters, routing, interfaces, firewall policies, and any required SD-WAN or BGP configuration. The branch device must match the settings configured in FortiSASE.
+
+**Q56. Can Branch On-Ramp support multiple branches?**
+
+A: Yes. It is designed to connect branch devices to FortiSASE Security PoPs, subject to supported devices, subscriptions, and deployment limits.
+
+**Q57. What happens if the Branch On-Ramp IPsec tunnel goes down?**
+
+A: Traffic using that path may fail. I would check the ISP, peer reachability, IKE/IPsec settings, tunnel status, routing, and logs.
