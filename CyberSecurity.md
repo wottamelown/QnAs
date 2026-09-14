@@ -30,22 +30,7 @@
   - Controls: Redundancy, load balancing, DDoS mitigation, disaster recovery
   - Example: Multi-region failover to ensure 99.99% uptime
 
-**Interview Insight**: Be ready to discuss trade-offs. Security often conflicts with these. Example: Strong encryption (confidentiality) impacts performance (availability).
 
----
-
-### Defense in Depth
-Multiple overlapping security layers to ensure if one fails, others provide protection.
-
-**Real-world implementation**:
-```
-Internet → Firewall → WAF → Rate Limiting → Authentication 
-→ Authorization → Data Encryption → Monitoring & Logging
-```
-
-**Why it matters**: No single control is 100% effective. Assume breach mentality.
-
----
 
 ### Zero Trust Architecture
 **Core principle**: "Never trust, always verify"
@@ -54,14 +39,6 @@ Internet → Firewall → WAF → Rate Limiting → Authentication
 - Verify every device, user, and connection
 - Least privilege access by default
 - Continuous monitoring and validation
-
-**vs. Traditional Perimeter Security**:
-| Traditional | Zero Trust |
-|---|---|
-| Trust inside network | Trust nothing by default |
-| Firewall-centric | Identity-centric |
-| One-time auth | Continuous verification |
-| Flat network | Microsegmentation |
 
 **Implementation**: MFA, device compliance checks, micro-segmentation, behavioral analytics
 
@@ -82,21 +59,6 @@ Internet → Firewall → WAF → Rate Limiting → Authentication
 
 ---
 
-## Network Security
-
-### OSI Model Security at Each Layer
-
-| Layer | Name | Security Focus | Example Control |
-|---|---|---|---|
-| 7 | Application | API security, data validation | WAF, input sanitization |
-| 6 | Presentation | Data formatting, encryption | TLS/SSL |
-| 5 | Session | Session management | Session tokens, timeout |
-| 4 | Transport | End-to-end encryption | TLS, IPsec |
-| 3 | Network | Routing, DDoS | Firewalls, BGP security |
-| 2 | Data Link | Physical switching | Port security, VLAN |
-| 1 | Physical | Physical access | Locks, environmental controls |
-
----
 
 ### Firewalls & IDS/IPS
 
@@ -105,19 +67,10 @@ Internet → Firewall → WAF → Rate Limiting → Authentication
 - **Stateless**: Examines individual packets (less common, faster)
 - **Next-Gen Firewalls (NGFW)**: Application-aware, can understand protocols, block malware
 
-**Example scenario**:
-```
-A user tries to download a suspicious .exe file
-→ Stateless firewall: Only sees destination port 80/443, allows
-→ NGFW: Analyzes content, detects malware signature, blocks
-```
+
 
 **IDS (Intrusion Detection System)**: Monitors and alerts on suspicious activity
 **IPS (Intrusion Prevention System)**: IDS + ability to block threats in real-time
-
-**Key difference**: IDS is detective (like CCTV), IPS is preventive (like security guard blocking entry)
-
----
 
 ### VPN & Encryption Protocols
 
@@ -131,16 +84,6 @@ A user tries to download a suspicious .exe file
 - Symmetric encryption for session (faster)
 - Mutual authentication via certificates
 
-**Handshake process**:
-1. Client hello (supported versions, ciphers)
-2. Server responds with certificate, selects cipher
-3. Key exchange (Diffie-Hellman or elliptic curve)
-4. Client verifies server certificate against trusted CAs
-5. Both derive session key, switch to encrypted communication
-
-**Interview question**: "Why use asymmetric for handshake, then symmetric for data?"
-- Asymmetric is computationally expensive (secure key exchange)
-- Symmetric is fast (bulk data encryption)
 
 ---
 
@@ -148,8 +91,6 @@ A user tries to download a suspicious .exe file
 
 **DNS Attacks**:
 - **DNS Spoofing**: Attacker returns false DNS response
-- **DNS Amplification**: DDoS attack using public DNS servers
-- **DNS Tunneling**: Exfiltrating data using DNS queries
 
 **Defenses**:
 - **DNSSEC**: Cryptographically signs DNS responses
@@ -172,10 +113,6 @@ A user tries to download a suspicious .exe file
 | Use Case | Bulk encryption | Key exchange, signatures |
 | Example | AES, ChaCha20 | RSA, ECC |
 
-**When to use what**:
-- Use asymmetric to securely exchange a symmetric key
-- Use symmetric for all bulk data (faster)
-- Use asymmetric for digital signatures (prove identity, ensure non-repudiation)
 
 ---
 
@@ -195,35 +132,6 @@ A user tries to download a suspicious .exe file
 - **SHA-256**: GOOD, use for new systems
 - **SHA-3**: Latest standard
 - **bcrypt/Argon2**: GOOD for password hashing (includes salt + work factor)
-
-**Critical insight**: Never hash passwords with SHA-256 alone. Use bcrypt/Argon2 because:
-- They're slow (prevent brute force)
-- Include salt (prevent rainbow tables)
-- Adaptable work factor (can increase cost as computers get faster)
-
----
-
-### Digital Signatures & PKI
-
-**Digital Signature Process**:
-```
-Message → Hash → Encrypt with Private Key → Signature
-         (only owner has private key, proves identity + message authenticity)
-
-Receiver: Decrypt Signature with Public Key → Get Hash
-          Hash(received message) should match → Verify both identity and integrity
-```
-
-**Public Key Infrastructure (PKI)**:
-- Certificate Authority (CA): Trusted entity that signs certificates
-- Certificate Revocation List (CRL) / OCSP: Check if certificate is still valid
-- Chain of Trust: Root CA → Intermediate CA → End Entity Certificate
-
-**Real scenario**: 
-- Your browser trusts root CAs (built-in)
-- Bank's certificate is signed by Intermediate CA
-- Intermediate CA's cert is signed by trusted root
-- Browser verifies entire chain
 
 ---
 
@@ -245,90 +153,29 @@ Receiver: Decrypt Signature with Public Key → Get Hash
    - SQL Injection: `SELECT * FROM users WHERE id = ' OR '1'='1`
    - Prevention: Use parameterized queries, input validation, least privilege DB user
    ```python
-   # VULNERABLE
-   query = f"SELECT * FROM users WHERE id = {user_id}"
-   
-   # SAFE
-   cursor.execute("SELECT * FROM users WHERE id = ?", (user_id,))
-   ```
 
 4. **Insecure Design**
-   - Problem: Missing security requirements in design
-   - Prevention: Threat modeling, secure design patterns, security requirements gathering
    - Example: Building payment system without fraud detection
 
 5. **Security Misconfiguration**
-   - Problem: Defaults, unnecessary features, outdated systems
-   - Prevention: Security hardening, minimal installations, regular patching
    - Example: Default admin credentials, exposed cloud storage, debug mode enabled
 
 6. **Vulnerable Components**
    - Problem: Using libraries/frameworks with known vulnerabilities
-   - Prevention: Dependency scanning, regular updates, SBOM tracking
-   - Tools: Snyk, Dependabot, Black Duck
 
 7. **Authentication Failures**
    - Problem: Weak authentication, session hijacking, credential stuffing
-   - Prevention: MFA, secure session management, rate limiting login attempts
-   - Example: Sessions that don't expire, predictable session IDs
 
 8. **Software & Data Integrity Failures**
    - Problem: Insecure updates, unverified dependencies, CI/CD compromises
-   - Prevention: Digital signatures for updates, secure supply chain, code signing
-   - Example: npm package with malicious code gets 1M downloads
 
 9. **Logging & Monitoring Failures**
    - Problem: Insufficient logging, no alerting
-   - Prevention: Centralized logging, security event monitoring, incident response
-   - Example: Breach went undetected for 200 days (= detection failure)
 
 10. **SSRF (Server-Side Request Forgery)**
     - Problem: Attacker tricks server into making requests on their behalf
-    - Prevention: Input validation, network segmentation, allowlist URLs
-    - Example: Attacker sends `url=http://localhost:8080/admin` to vulnerable API
 
 ---
-
-### Secure Coding Practices
-
-**Input Validation & Sanitization**:
-```python
-# Always validate
-user_input = request.get('id')
-
-# Whitelist approach (BEST)
-if not re.match(r'^\d+$', user_input):
-    return error("Invalid ID")
-
-# Length checks
-if len(user_input) > 100:
-    return error("Input too long")
-
-# Type conversion
-user_id = int(user_input)  # Fails if not numeric
-```
-
-**Output Encoding**:
-```html
-<!-- VULNERABLE: If name="<script>alert('XSS')</script>" -->
-Hello, <%= name %>
-
-<!-- SAFE: HTML-encoded -->
-Hello, <%= htmlEscape(name) %>
-<!-- Output: Hello, &lt;script&gt;alert('XSS')&lt;/script&gt; -->
-```
-
-**Secure Error Handling**:
-```python
-# VULNERABLE: Exposes system details
-except Exception as e:
-    return {"error": str(e)}  # Might expose path, DB info
-
-# SECURE: Generic user message, detailed logging
-except Exception as e:
-    logger.error(f"Error processing request: {e}", exc_info=True)
-    return {"error": "An error occurred. Please contact support."}
-```
 
 ---
 
@@ -339,28 +186,8 @@ except Exception as e:
 - OAuth 2.0: Industry standard, delegated auth
 - JWT (JSON Web Tokens): Stateless, but can't revoke immediately
 
-**JWT Structure**:
-```
-Header.Payload.Signature
 
-Header: {"alg": "HS256", "typ": "JWT"}
-Payload: {"user_id": 123, "exp": 1234567890}
-Signature: HMAC-SHA256(header.payload, secret_key)
-```
 
-**JWT Risks**:
-- Algorithm confusion: Attacker changes "HS256" to "none" → server skips verification
-- Expired token still valid: Always check expiration
-- Leaking in logs/monitoring
-
-**Rate Limiting**:
-```
-Too many requests → 429 status code
-Per-user: 100 requests/minute
-Per-IP: 1000 requests/minute
-```
-
----
 
 ## Cloud & Infrastructure Security
 
@@ -668,15 +495,6 @@ Command & Control (Upload to attacker server)
 
 ---
 
-### Threat Modeling (STRIDE)
-
-**STRIDE**: Spoofing, Tampering, Repudiation, Information Disclosure, Denial of Service, Elevation of Privilege
-
-**Example: Online Banking App**
-
-```
-User → [Auth] → Backend → [API] → Database
-```
 
 **Threats**:
 
@@ -693,14 +511,6 @@ User → [Auth] → Backend → [API] → Database
 
 ### Secure Software Development Lifecycle (SSDLC)
 
-**Phases**:
-
-1. **Requirements**: Security requirements gathering
-2. **Design**: Threat modeling, security architecture
-3. **Development**: Secure coding training, code review
-4. **Testing**: SAST, DAST, penetration testing
-5. **Deployment**: Security scanning in CI/CD, secrets scanning
-6. **Maintenance**: Patch management, monitoring
 
 **Tools**:
 - **SAST** (Static Application Security Testing): Analyze code for vulnerabilities (SonarQube, Checkmarx)
@@ -751,22 +561,6 @@ User → [Auth] → Backend → [API] → Database
    - Data exfiltration, persistence mechanism, command & control
    - Create IOCs (Indicators of Compromise)
 
-**Example**:
-```
-Malware analysis reveals:
-- Connects to attacker.com:8080
-- Drops persistent file to %APPDATA%\system32\svc.exe
-- Modifies registry to auto-start on boot
-- Exfiltrates %APPDATA%\passwords.txt
-
-Detection strategy:
-- Block IP/domain
-- Hunt for that filename on all systems
-- Check registry for persistence
-- Search logs for password file access
-```
-
----
 
 ## Interview Tips & Real-World Scenarios
 
@@ -783,21 +577,6 @@ Detection strategy:
 
 ---
 
-### Red Flags & Green Flags in Interviews
-
-**Red flags** (company doesn't care about security):
-- "We don't have time for security testing"
-- "Just use the defaults, they're fine"
-- "We'll deal with security debt later"
-- No IR plan, no monitoring, no logging
-
-**Green flags** (company takes security seriously):
-- Dedicated security team
-- Security champions in each team
-- Regular penetration testing and tabletop exercises
-- Vulnerability disclosure program
-- Security training required
-- Security part of product roadmap
 
 ---
 
