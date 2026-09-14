@@ -346,3 +346,205 @@ A: Yes. It is designed to connect branch devices to FortiSASE Security PoPs, sub
 **Q57. What happens if the Branch On-Ramp IPsec tunnel goes down?**
 
 A: Traffic using that path may fail. I would check the ISP, peer reachability, IKE/IPsec settings, tunnel status, routing, and logs.
+
+## 10. Secure Private Access (SPA)
+
+**Q58. What is FortiSASE Secure Private Access?**
+
+A: SPA provides identity- and device-context-based access to private applications in on-premises data centers, private clouds, or public clouds.
+
+**Q59. What is the difference between SIA and SPA?**
+
+A:
+- SIA: Secure Internet Access protects access to Internet and web-based applications.
+- SPA: Secure Private Access protects access to private corporate applications.
+
+**Q60. What is an SPA Connector?**
+
+A: It is the connectivity point between FortiSASE and private applications. An existing FortiGate SD-WAN hub or supported FortiGate firewall can serve as an SPA Connector.
+
+**Q61. Can an existing FortiGate SD-WAN hub be used for SPA?**
+
+A: Yes. FortiSASE supports integration with an existing FortiGate SD-WAN hub as an SPA Connector.
+
+**Q62. Explain the traffic flow for a remote user accessing an internal server.**
+
+A:
+
+Remote User → FortiClient / Traffic Steering → FortiSASE Security PoP → SPA Policy Enforcement → IPsec Tunnel → FortiGate SPA Connector → Internal Application
+
+The user is granted access only if the relevant identity, device, and application policies allow it.
+
+**Q63. Does SPA provide full network access like a traditional VPN?**
+
+A: Not by default. SPA is designed for controlled access to explicit private applications rather than automatically granting unrestricted network access.
+
+**Q64. What is device posture in SPA?**
+
+A: It is the security state of a device, such as compliance or security tags, used to determine whether the device should receive access.
+
+**Q65. What happens if a device becomes non-compliant after connecting?**
+
+A: Access can be restricted according to the configured device-posture and private-access policies.
+
+**Q66. Can users access private applications by IP address or domain name?**
+
+A: Yes. Supported SPA deployment methods allow access using private IP addresses or domain names, including DNS redirection where configured.
+
+**Q67. Can users access private applications without FortiClient?**
+
+A: Yes, for supported use cases. FortiSASE provides agentless options such as proxy-based access and bookmark-portal access for private web applications.
+
+## 11. Branch On-Ramp + SPA Integration
+
+These are particularly relevant when a customer uses both technologies.
+
+**Q68. What is the relationship between Branch On-Ramp and SPA?**
+
+A: Both can use FortiGate connectivity and BGP routing within FortiSASE. Branch On-Ramp connects branch locations, while SPA controls secure access to private applications.
+
+**Q69. Can Branch On-Ramp and SPA use the same BGP configuration?**
+
+A: In the FortiGate branch-device design, Branch On-Ramp and SPA share BGP configuration. Fortinet requires SPA network configuration first before deploying a Branch On-Ramp location in that design.
+
+**Q70. What is the difference between a Branch On-Ramp device and an SPA Connector?**
+
+A:
+- Branch On-Ramp: Connects a branch location to FortiSASE.
+- SPA Connector: Provides connectivity from FortiSASE to private applications or networks.
+
+A FortiGate can participate in both roles, depending on the architecture.
+
+**Q71. Can a branch user access an internal application through FortiSASE?**
+
+A: Yes, if the branch has the required connectivity, the application is reachable, and the applicable SPA policies permit access.
+
+**Q72. How would you restrict branch users to only HQ applications?**
+
+A: Use the required hub-and-spoke routing design, restrict private-access policies to approved HQ destinations, and deny unnecessary branch-to-branch or other private traffic.
+
+**Q73. Does Branch On-Ramp automatically provide branch-to-branch connectivity?**
+
+A: Not necessarily. Connectivity depends on the routing design and security policies. You should explicitly control branch-to-branch access if it is not required.
+
+## 12. SD-WAN, BGP & Routing
+
+**Q74. What is the difference between Branch On-Ramp and SD-WAN?**
+
+A: Branch On-Ramp provides a connectivity method into FortiSASE. SD-WAN manages WAN paths and routing decisions based on the deployment's configured design.
+
+**Q75. What is BGP per overlay?**
+
+A: A routing design in which BGP is established over the relevant overlay connections. FortiSASE supports BGP per overlay and BGP on loopback for applicable parts of its architecture.
+
+**Q76. Can you mix BGP per overlay and BGP on loopback?**
+
+A: FortiSASE's documented BGP configuration requires one routing design method for all hubs and spokes; they cannot be mixed.
+
+**Q77. What is route advertisement?**
+
+A: It is the process of informing neighboring routers about reachable networks.
+
+**Q78. What happens if the FortiSASE PoP does not learn the branch LAN route?**
+
+A: Return traffic may not reach the branch. I would check BGP neighbor status, advertised and received routes, route filters, and routing tables.
+
+**Q79. What happens if the branch does not learn the HQ route?**
+
+A: The branch may not know where to send traffic destined for HQ. I would verify BGP advertisements, route installation, and any static routes or filters.
+
+**Q80. What would you check if the BGP session is down?**
+
+A: Peer IP reachability, ASN configuration, update-source, TCP port 179, authentication, route to the peer, and BGP logs.
+
+**Q81. What is the purpose of route filtering?**
+
+A: To control which routes are accepted or advertised and prevent unwanted or incorrect network reachability.
+
+**Q82. How would you prevent branch-to-branch shortcuts?**
+
+A: Use a hub-and-spoke topology, advertise only the required routes, apply route filtering, and enforce firewall policies denying unnecessary branch-to-branch traffic.
+
+## 13. IPsec & Traffic Steering
+
+**Q83. What is the difference between IPsec and BGP in this architecture?**
+
+A: IPsec provides the encrypted tunnel; BGP exchanges routing information across the connectivity.
+
+**Q84. What is traffic steering?**
+
+A: Directing traffic through a selected path or security service, such as a FortiSASE PoP, based on configured rules.
+
+**Q85. What are common ways to steer traffic to FortiSASE?**
+
+A: Depending on the use case, FortiClient agent-based steering, IPsec with routing, explicit proxy, and agentless methods can be used.
+
+**Q86. What is the difference between agent-based and agentless access?**
+
+A:
+- Agent-based: Uses FortiClient on the endpoint.
+- Agentless: Uses supported browser/proxy or portal-based access without installing the endpoint agent.
+
+**Q87. Why might a customer use local Internet breakout?**
+
+A: To reduce latency and avoid backhauling Internet traffic through a central location, while still applying the required local or cloud security controls.
+
+**Q88. What would you check if traffic is bypassing FortiSASE?**
+
+A: Check endpoint steering, routing, policy destinations, local breakout configuration, DNS behavior, and traffic logs.
+
+## 14. Important FortiSASE Concepts You May Be Missing
+
+**Secure Internet Access (SIA)**
+
+Protects Internet and web-based access through FortiSASE. Know the difference between agent-based Internet Access policies and agentless SWG policies.
+
+**Secure SaaS Access (SSA)**
+
+Protects access to SaaS applications using cloud-application security controls, including CASB capabilities.
+
+**ZTNA Tags & Device Posture**
+
+Know how device compliance or security posture can influence access to private applications.
+
+**Digital Experience Monitoring (DEM)**
+
+Helps monitor the user experience and reachability of private applications behind SPA Connectors.
+
+**Identity Integration**
+
+Understand IdP integration, SAML/OAuth authentication, MFA, user groups, and how identity is used in security policies.
+
+**Policy Types**
+
+Know Internet Access policies, SWG policies, and Private Access policies. Each serves a different traffic and access use case.
+
+## 15. Senior Troubleshooting Scenarios
+
+**Q89. Branch users can access the Internet, but cannot reach an HQ server through SPA. What do you check?**
+
+A: Check the IPsec tunnel, BGP routes, private-access policy, FortiGate firewall rules, DNS, and return routing.
+
+**Q90. The IPsec tunnel is up, but traffic is not passing. What could be wrong?**
+
+A: Missing routes, incorrect selectors, firewall policies, NAT, route filtering, or a return-path issue.
+
+**Q91. BGP is established, but the application is still unreachable. Why?**
+
+A: BGP only provides routing information. The issue may be in firewall policies, SPA authorization, DNS, application availability, or return traffic.
+
+**Q92. A branch loses its primary WAN link. What should happen in an SD-WAN design?**
+
+A: SD-WAN should select a healthy alternate path if one is configured and meets the relevant performance and policy requirements.
+
+**Q93. A remote user is authenticated but cannot access an internal application.**
+
+A: Verify device posture, SPA authorization, destination definition, private connectivity, DNS, routing, and backend firewall policies.
+
+**Q94. The customer wants all branches to access HQ but no branch-to-branch traffic. How would you design it?**
+
+A: Use hub-and-spoke connectivity, advertise the necessary HQ routes, avoid advertising branch prefixes to other branches, and enforce deny policies for branch-to-branch traffic.
+
+**Q95. How would you safely troubleshoot a production FortiSASE issue?**
+
+A: Determine the impact, review monitoring and logs, verify connectivity and routing, compare with the last known-good configuration, make controlled changes with approval, and validate service restoration.
