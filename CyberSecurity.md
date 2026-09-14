@@ -44,14 +44,10 @@
 **Attack Surface**: Sum of all possible vulnerabilities in a system
 
 **Reducing it**:
-- Disable unnecessary services
-- Remove default credentials
-- Regular vulnerability scanning
-- Apply principle of least privilege
+- Disable unnecessary services, vulnerability scanning, least privilege
 
 **MITRE ATT&CK Framework**: Comprehensive matrix of real-world adversary tactics and techniques
 - Use it to assess your defenses against known attack patterns
-- Example: MITRE identifies "Credential Dumping" (T1110) as common; implement credential guard
 
 ---
 
@@ -90,10 +86,8 @@
 
 **Defenses**:
 - **DNSSEC**: Cryptographically signs DNS responses
-- **DNS over HTTPS (DoH)**: Encrypts DNS queries
-- **DNS over TLS (DoT)**: TLS wrapper around DNS
+- **DNS over HTTPS/TLS (DoH)**: Encrypts DNS queries
 - Rate limiting on DNS servers
-- Monitoring for unusual query patterns
 
 ---
 
@@ -115,12 +109,6 @@
 ### Hashing
 
 **Purpose**: One-way function to verify integrity and create fingerprints
-
-**Properties of a good hash**:
-- Deterministic (same input → same output)
-- Pre-image resistant (can't find input from output)
-- Collision resistant (can't find two inputs with same output)
-- Avalanche effect (small input change → completely different output)
 
 **Common algorithms**:
 - **MD5**: BROKEN, don't use (collisions found)
@@ -326,7 +314,6 @@ resource "aws_security_group" "web" {
 
 3. **Containment**
    - **Short-term**: Isolate affected systems (prevent spread)
-   - **Long-term**: Patch vulnerability, fix root cause
    - Example: Disconnect compromised server from network immediately
 
 4. **Eradication**
@@ -349,7 +336,7 @@ resource "aws_security_group" "web" {
 
 ### Security Monitoring & SIEM
 
-**SIEM (Security Information & Event Management)**: Centralized logging and correlation
+**SIEM (Security Information & Event Management)**: Centralized logging and correlation which store security and incident related events/logs. 
 
 **Key events to monitor**:
 - Failed login attempts (brute force)
@@ -578,16 +565,6 @@ Command & Control (Upload to attacker server)
 
 ## Common Interview Q&A
 
-### 1. Cybersecurity Fundamentals
-
-**Q: What is cybersecurity?**
-
-A: Cybersecurity is the practice of protecting systems, networks, applications, and data from unauthorized access, disruption, modification, or destruction.
-
-Key objectives (CIA Triad):
-- **Confidentiality**: Only authorized users can access information
-- **Integrity**: Information remains accurate and unmodified
-- **Availability**: Systems and data remain accessible when required
 
 ---
 
