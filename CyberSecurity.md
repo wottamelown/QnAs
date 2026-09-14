@@ -855,7 +855,1459 @@ Detection strategy:
 - Breadth: Understand all layers (more valuable for startups)
 - Depth: Expert in one area (more valuable for large orgs with specialist roles)
 
----
 
-*Last updated: 2026*
-*Good luck with your cybersecurity interview! 🔒*
+### Interview Questions & Answers
+
+
+1. Cybersecurity Fundamentals
+Q1. What is cybersecurity?
+
+Answer: Cybersecurity is the practice of protecting systems, networks, applications, and data from unauthorized access, disruption, modification, or destruction.
+
+Its main objectives are the CIA Triad:
+
+Confidentiality: Only authorized users can access information.
+
+Integrity: Information remains accurate and unmodified.
+
+Availability: Systems and data remain accessible when required.
+
+Q2. What is the difference between a threat, vulnerability, risk, and exploit?
+
+Answer:
+
+Threat: Anything that can cause harm.
+
+Vulnerability: A weakness in a system.
+
+Exploit: A technique or code that takes advantage of a vulnerability.
+
+Risk: The possibility and impact of a threat exploiting a vulnerability.
+
+Example: An unpatched web server is the vulnerability. A hacker is the threat. The exploit uses the unpatched weakness. Data theft is the resulting risk.
+
+Q3. What is defense in depth?
+
+Answer: Defense in depth means using multiple security layers so that if one control fails, other controls continue protecting the organization.
+
+Example:
+
+Firewall
+
+IPS
+
+WAF
+
+Endpoint protection
+
+MFA
+
+Network segmentation
+
+SIEM monitoring
+
+Backup and recovery
+
+Q4. What is the difference between authentication and authorization?
+
+Answer:
+
+Authentication: Verifies who you are.
+
+Authorization: Determines what you are allowed to access.
+
+Example: Logging in with a password and MFA is authentication. Accessing only the Finance folder is authorization.
+
+Q5. What is the principle of least privilege?
+
+Answer: Users, applications, and systems should receive only the minimum permissions required to perform their tasks.
+
+Example: A network monitoring account should have read-only access instead of full administrator privileges.
+
+Q6. What is Zero Trust?
+
+Answer: Zero Trust is a security model based on the principle:
+
+Never trust automatically; always verify.
+
+It continuously evaluates:
+
+User identity
+
+Device health
+
+Application
+
+Location
+
+Risk level
+
+Requested resource
+
+Zero Trust commonly uses MFA, least privilege, segmentation, continuous monitoring, and device posture checks.
+
+2. Common Cyberattacks
+Q7. What is phishing?
+
+Answer: Phishing is a social-engineering attack where an attacker impersonates a trusted person or organization to trick users into revealing credentials, opening malicious files, or clicking malicious links.
+
+Controls:
+
+Email security gateway
+
+Anti-phishing protection
+
+MFA
+
+User awareness training
+
+URL filtering
+
+DMARC, DKIM, and SPF
+
+EDR monitoring
+
+Q8. What is ransomware?
+
+Answer: Ransomware is malware that encrypts or locks files and systems and demands payment for recovery.
+
+Attack chain:
+
+Phishing or exposed vulnerability
+
+Initial access
+
+Privilege escalation
+
+Lateral movement
+
+Data exfiltration
+
+Encryption and extortion
+
+Controls:
+
+EDR/XDR
+
+Network segmentation
+
+MFA
+
+Patch management
+
+Offline or immutable backups
+
+Least privilege
+
+Application control
+
+Incident-response procedures
+
+Q9. What is a DDoS attack?
+
+Answer: A Distributed Denial-of-Service attack uses multiple compromised systems or sources to overwhelm a service with traffic or requests.
+
+Types:
+
+Volumetric: Consumes bandwidth.
+
+Protocol-based: Exhausts network or transport resources.
+
+Application-layer: Targets services such as HTTP or HTTPS.
+
+Controls:
+
+DDoS protection provider
+
+Rate limiting
+
+CDN
+
+WAF
+
+Anycast
+
+Traffic filtering
+
+Capacity planning
+
+Q10. What is SQL Injection?
+
+Answer: SQL Injection occurs when an attacker inserts malicious SQL statements into application input fields to manipulate the database.
+
+Possible impact:
+
+Data theft
+
+Authentication bypass
+
+Data modification
+
+Database destruction
+
+Controls:
+
+Parameterized queries
+
+Prepared statements
+
+Input validation
+
+Least-privileged database accounts
+
+Secure coding
+
+WAF signatures and virtual patching
+
+Q11. What is Cross-Site Scripting, or XSS?
+
+Answer: XSS occurs when an attacker injects malicious JavaScript into a trusted website and the browser executes it for another user.
+
+Types:
+
+Stored XSS
+
+Reflected XSS
+
+DOM-based XSS
+
+Impact:
+
+Session theft
+
+Account takeover
+
+Malicious redirection
+
+Unauthorized actions
+
+Controls:
+
+Output encoding
+
+Input validation
+
+Content Security Policy
+
+Secure cookies
+
+HttpOnly and SameSite cookie attributes
+
+WAF protection
+
+Q12. What is a Man-in-the-Middle attack?
+
+Answer: A Man-in-the-Middle attack occurs when an attacker intercepts or modifies communication between two parties.
+
+Examples:
+
+Rogue Wi-Fi access point
+
+ARP spoofing
+
+DNS manipulation
+
+TLS downgrade
+
+Controls:
+
+TLS certificates
+
+Certificate validation
+
+HTTPS
+
+Secure Wi-Fi
+
+Dynamic ARP Inspection
+
+DHCP Snooping
+
+VPN
+
+Network segmentation
+
+Q13. What is ARP spoofing?
+
+Answer: ARP spoofing occurs when an attacker sends false ARP messages to associate their MAC address with another device’s IP address, such as the default gateway.
+
+Impact:
+
+Traffic interception
+
+Man-in-the-Middle attacks
+
+Traffic disruption
+
+Controls:
+
+DHCP Snooping
+
+Dynamic ARP Inspection
+
+Static ARP entries where appropriate
+
+Port security
+
+Network segmentation
+
+Q14. What is DNS spoofing?
+
+Answer: DNS spoofing occurs when an attacker provides false DNS responses, redirecting users to a malicious IP address.
+
+Controls:
+
+Secure DNS resolvers
+
+DNS filtering
+
+DNSSEC validation
+
+Monitoring DNS changes
+
+Restricting unauthorized DNS servers
+
+Q15. What is credential stuffing?
+
+Answer: Credential stuffing uses stolen usernames and passwords from one service to attempt access to another service.
+
+Controls:
+
+MFA
+
+Passwordless authentication
+
+Password reuse prevention
+
+Login rate limiting
+
+Bot detection
+
+Risk-based authentication
+
+Credential monitoring
+
+Q16. What is brute-force attack?
+
+Answer: A brute-force attack repeatedly tries passwords or authentication combinations until the correct credentials are found.
+
+Controls:
+
+Account lockout or throttling
+
+MFA
+
+Strong password policy
+
+CAPTCHA or bot protection
+
+IP reputation filtering
+
+Monitoring failed logins
+
+Q17. What is privilege escalation?
+
+Answer: Privilege escalation occurs when an attacker gains permissions beyond those originally assigned.
+
+Vertical escalation: Standard user becomes administrator.
+
+Horizontal escalation: One user accesses another user’s resources.
+
+Controls:
+
+Least privilege
+
+Patch management
+
+Privileged Access Management
+
+MFA
+
+Application isolation
+
+Monitoring administrative activity
+
+Q18. What is lateral movement?
+
+Answer: Lateral movement is when an attacker moves from one compromised system to other systems inside the environment.
+
+Common techniques:
+
+Stolen credentials
+
+Pass-the-Hash
+
+Remote Desktop Protocol
+
+SMB
+
+PowerShell
+
+Exploiting internal vulnerabilities
+
+Controls:
+
+Network segmentation
+
+Internal firewalls
+
+Privileged account separation
+
+EDR
+
+MFA for remote administration
+
+Restricting east-west traffic
+
+Q19. What is data exfiltration?
+
+Answer: Data exfiltration is the unauthorized transfer of data from an organization to an external location.
+
+Controls:
+
+Data Loss Prevention
+
+Egress filtering
+
+Proxy monitoring
+
+DLP inspection
+
+CASB
+
+Encryption and access control
+
+SIEM alerts
+
+Unusual-volume detection
+
+Q20. What is a zero-day vulnerability?
+
+Answer: A zero-day vulnerability is a previously unknown or unpatched vulnerability for which effective protection or a vendor patch may not yet be available.
+
+Controls:
+
+Virtual patching through WAF or IPS
+
+EDR behavior detection
+
+Application allowlisting
+
+Network segmentation
+
+Threat intelligence
+
+Rapid patching when available
+
+Attack-surface reduction
+
+3. Network Security Questions
+Q21. What is the difference between a firewall, IPS, IDS, and WAF?
+
+Technology
+
+	
+
+Main purpose
+
+
+
+
+Firewall
+
+	
+
+Controls traffic based on rules
+
+
+
+
+IDS
+
+	
+
+Detects suspicious activity and generates alerts
+
+
+
+
+IPS
+
+	
+
+Detects and blocks malicious traffic inline
+
+
+
+
+WAF
+
+	
+
+Protects web applications at Layer 7
+
+
+
+
+EDR
+
+	
+
+Detects and responds to endpoint threats
+
+
+
+
+SIEM
+
+	
+
+Collects, correlates, and analyzes security logs
+
+Example: A firewall may allow HTTPS traffic, while an IPS detects an exploit and a WAF blocks SQL Injection in the HTTP request.
+
+Q22. What is the difference between stateful and stateless firewalls?
+
+Answer:
+
+Stateless firewall: Evaluates each packet independently.
+
+Stateful firewall: Tracks sessions and understands connection state.
+
+A stateful firewall can recognize whether traffic belongs to an established and permitted connection.
+
+Q23. What is network segmentation?
+
+Answer: Network segmentation divides a network into separate security zones to limit unauthorized access and lateral movement.
+
+Example zones:
+
+User VLAN
+
+Server VLAN
+
+Guest network
+
+Management network
+
+DMZ
+
+Database network
+
+Security tools network
+
+Q24. What is a DMZ?
+
+Answer: A DMZ is a network segment used to host publicly accessible services while separating them from the internal network.
+
+Example: Internet → Firewall → DMZ web server → Internal application/database network.
+
+The database should not be directly exposed to the Internet.
+
+Q25. What is an attack surface?
+
+Answer: The attack surface is the total number of exposed assets, services, applications, identities, interfaces, and entry points that attackers could target.
+
+Reduction methods:
+
+Disable unused services
+
+Remove unnecessary public exposure
+
+Patch vulnerabilities
+
+Enforce MFA
+
+Segment networks
+
+Review firewall rules
+
+Maintain asset inventory
+
+Q26. What is an SSL/TLS inspection challenge?
+
+Answer: Encrypted traffic hides its contents from security devices. SSL/TLS inspection decrypts traffic for inspection and then re-encrypts it.
+
+Challenges:
+
+Certificate deployment
+
+Privacy concerns
+
+Performance overhead
+
+Certificate pinning
+
+Applications that reject inspection
+
+Legal and compliance requirements
+
+Q27. What is the difference between north-south and east-west traffic?
+
+Answer:
+
+North-south traffic: Traffic entering or leaving the organization.
+
+East-west traffic: Traffic moving between internal systems.
+
+Example: Internet user accessing a web server is north-south traffic. An application server accessing a database is east-west traffic.
+
+4. Security Operations and Incident Response
+Q28. What is a SIEM?
+
+Answer: A Security Information and Event Management system collects, normalizes, correlates, and analyzes logs from multiple sources.
+
+Sources:
+
+Firewalls
+
+Servers
+
+Endpoints
+
+Cloud platforms
+
+Identity systems
+
+Applications
+
+Network devices
+
+Functions:
+
+Threat detection
+
+Correlation
+
+Alerting
+
+Investigation
+
+Compliance reporting
+
+Incident timelines
+
+Q29. What is the difference between SIEM, SOAR, and EDR?
+
+Tool
+
+	
+
+Purpose
+
+
+
+
+SIEM
+
+	
+
+Collects and correlates security events
+
+
+
+
+SOAR
+
+	
+
+Automates investigation and response workflows
+
+
+
+
+EDR
+
+	
+
+Monitors endpoint behavior and responds to endpoint threats
+
+Example: SIEM detects impossible travel. SOAR disables the account and creates a ticket. EDR investigates whether the endpoint is compromised.
+
+Q30. What are the stages of incident response?
+
+Answer:
+
+Preparation
+
+Detection and analysis
+
+Containment
+
+Eradication
+
+Recovery
+
+Lessons learned
+
+Example: For ransomware, isolate infected endpoints, identify the initial entry point, remove malware, restore from clean backups, and improve controls.
+
+Q31. What is the difference between an event, alert, incident, and breach?
+
+Answer:
+
+Event: Any recorded activity.
+
+Alert: A notification that activity may be suspicious.
+
+Incident: A confirmed or suspected security event requiring investigation or response.
+
+Breach: Unauthorized access, disclosure, or compromise of protected information.
+
+Q32. How would you investigate a suspected compromised workstation?
+
+Answer:
+
+Confirm the alert and affected asset.
+
+Isolate the endpoint if necessary.
+
+Identify the user and recent activity.
+
+Review EDR, firewall, DNS, proxy, and authentication logs.
+
+Check processes, persistence, and network connections.
+
+Search for lateral movement.
+
+Reset or revoke compromised credentials.
+
+Remove the threat or reimage the device.
+
+Validate recovery.
+
+Document the root cause and lessons learned.
+
+Q33. What is threat intelligence?
+
+Answer: Threat intelligence is analyzed information about threat actors, indicators, tactics, techniques, procedures, and campaigns.
+
+Examples:
+
+Malicious IP addresses
+
+Domains
+
+File hashes
+
+Phishing infrastructure
+
+MITRE ATT&CK techniques
+
+Threat actor behavior
+
+Important: An indicator alone is not always proof of compromise. It must be investigated in context.
+
+Q34. What is MITRE ATT&CK?
+
+Answer: MITRE ATT&CK is a knowledge base that describes real-world adversary tactics and techniques.
+
+Examples:
+
+Initial Access
+
+Execution
+
+Persistence
+
+Privilege Escalation
+
+Defense Evasion
+
+Credential Access
+
+Discovery
+
+Lateral Movement
+
+Exfiltration
+
+Impact
+
+It helps security teams map detections, identify gaps, and investigate attacker behavior. NIST distinguishes threat frameworks such as MITRE ATT&CK from cybersecurity frameworks that organize defensive risk management. 
+NIST
+
+5. Vulnerability and Risk Management
+Q35. What is vulnerability management?
+
+Answer: Vulnerability management is the continuous process of identifying, assessing, prioritizing, remediating, and validating vulnerabilities.
+
+Lifecycle:
+
+Asset discovery
+
+Vulnerability scanning
+
+Risk assessment
+
+Prioritization
+
+Remediation
+
+Validation
+
+Reporting
+
+Q36. What is the difference between vulnerability scanning and penetration testing?
+
+Answer:
+
+Vulnerability scanning: Automated identification of potential weaknesses.
+
+Penetration testing: Controlled exploitation to determine whether vulnerabilities can actually be abused and what impact they create.
+
+Scanning is broader and more frequent. Penetration testing is deeper and usually scoped and authorized.
+
+Q37. What is CVE and CVSS?
+
+Answer:
+
+CVE: A standardized identifier for a publicly known vulnerability.
+
+CVSS: A scoring system used to estimate the technical severity of a vulnerability.
+
+A high CVSS score does not automatically mean the vulnerability is the highest business priority. Exposure, exploit availability, asset criticality, and business impact must also be considered.
+
+Q38. What is risk assessment?
+
+Answer: Risk assessment identifies threats, vulnerabilities, likelihood, and impact to determine which risks require treatment.
+
+A simple model is:
+
+Risk = Likelihood × Impact
+
+Risk treatment options include:
+
+Mitigate
+
+Transfer
+
+Avoid
+
+Accept
+
+6. Compliance and Security Frameworks
+Q39. What is the difference between a policy, standard, procedure, guideline, and control?
+
+Answer:
+
+Policy: High-level management direction.
+
+Standard: Mandatory technical or operational requirements.
+
+Procedure: Step-by-step instructions.
+
+Guideline: Recommended practice.
+
+Control: A safeguard used to reduce risk.
+
+Example:
+
+Policy: All sensitive data must be protected.
+
+Standard: Use approved encryption algorithms.
+
+Procedure: Steps to configure encryption.
+
+Control: Encryption, access control, and monitoring.
+
+Q40. What is NIST CSF?
+
+Answer: The NIST Cybersecurity Framework 2.0 helps organizations manage and reduce cybersecurity risk. Its six functions are:
+
+Govern
+
+Identify
+
+Protect
+
+Detect
+
+Respond
+
+Recover
+
+It is outcome-based and flexible rather than prescribing one specific technology or implementation method. 
+NIST
++1
+
+Q41. Explain the six NIST CSF functions.
+
+Answer:
+
+Function
+
+	
+
+Meaning
+
+
+
+
+Govern
+
+	
+
+Establish cybersecurity strategy, roles, policies, and risk oversight
+
+
+
+
+Identify
+
+	
+
+Understand assets, risks, dependencies, and business context
+
+
+
+
+Protect
+
+	
+
+Implement safeguards
+
+
+
+
+Detect
+
+	
+
+Identify suspicious activity and security events
+
+
+
+
+Respond
+
+	
+
+Contain and manage incidents
+
+
+
+
+Recover
+
+	
+
+Restore operations and improve resilience
+
+Interview example: For a critical web application, identify the assets and risks, protect it using firewall/WAF/MFA, detect attacks through SIEM, respond through incident procedures, and recover using backups and tested restoration.
+
+Q42. What is ISO/IEC 27001?
+
+Answer: ISO/IEC 27001 is an international standard for establishing, implementing, maintaining, and continually improving an Information Security Management System, or ISMS.
+
+It focuses on:
+
+Risk management
+
+Security policies
+
+Asset management
+
+Access control
+
+Incident management
+
+Business continuity
+
+Supplier security
+
+Continual improvement
+
+Important: ISO 27001 is primarily a management-system standard. It is not simply a checklist of firewall configurations.
+
+Q43. What is the difference between NIST CSF and ISO 27001?
+
+NIST CSF
+
+	
+
+ISO/IEC 27001
+
+
+
+
+Cybersecurity risk framework
+
+	
+
+ISMS standard
+
+
+
+
+Outcome-based
+
+	
+
+Management-system requirements
+
+
+
+
+Flexible and adaptable
+
+	
+
+Can support formal certification
+
+
+
+
+Organizes cybersecurity activities
+
+	
+
+Requires governance, risk, documented processes, and continual improvement
+
+Q44. What are CIS Controls?
+
+Answer: CIS Critical Security Controls are a prioritized set of practical safeguards designed to reduce common cyber risks.
+
+They help organizations focus on high-value actions such as:
+
+Asset inventory
+
+Software inventory
+
+Secure configuration
+
+Account management
+
+Vulnerability management
+
+Audit logging
+
+Email and browser protection
+
+Malware defenses
+
+Data recovery
+
+CIS Controls are actionable safeguards and can be mapped to frameworks such as NIST CSF, ISO 27001, and PCI DSS. 
+CIS
++2
+
+Q45. What is PCI DSS?
+
+Answer: PCI DSS is a security standard for organizations that store, process, or transmit payment-card data.
+
+Common requirements include:
+
+Network security controls
+
+Secure configurations
+
+Protection of stored cardholder data
+
+Encryption during transmission
+
+Vulnerability management
+
+Strong access control
+
+Logging and monitoring
+
+Security testing
+
+Security policies
+
+Q46. What is the difference between a framework, standard, regulation, and law?
+
+Answer:
+
+Framework: Provides guidance for managing risk.
+
+Standard: Defines agreed requirements or practices.
+
+Regulation: Mandatory requirements issued by an authority.
+
+Law: Legally enforceable rules.
+
+Example:
+
+NIST CSF: Framework
+
+ISO/IEC 27001: Standard
+
+PCI DSS: Industry security standard
+
+Saudi PDPL: Legal/regulatory privacy requirement
+
+7. Saudi Cybersecurity Compliance
+Q47. What is the NCA ECC?
+
+Answer: The National Cybersecurity Authority Essential Cybersecurity Controls, or NCA ECC, is a Saudi cybersecurity control framework intended to establish a baseline of cybersecurity requirements for relevant organizations.
+
+It covers areas such as:
+
+Cybersecurity governance
+
+Risk management
+
+Asset management
+
+Identity and access management
+
+Network security
+
+Systems security
+
+Incident management
+
+Business continuity
+
+Third-party cybersecurity
+
+Compliance and audit
+
+Q48. How would you implement NCA ECC controls in a company?
+
+Answer:
+
+Define the scope and applicable systems.
+
+Perform a current-state assessment.
+
+Map existing controls to NCA ECC requirements.
+
+Identify gaps and assign control owners.
+
+Prioritize risks based on business impact.
+
+Implement technical and administrative controls.
+
+Maintain policies, procedures, and evidence.
+
+Monitor control effectiveness.
+
+Conduct internal assessments.
+
+Continuously improve the cybersecurity program.
+
+Technical examples:
+
+MFA and privileged access management
+
+Firewall rule reviews
+
+Network segmentation
+
+Centralized logging
+
+Vulnerability management
+
+Backup testing
+
+Incident-response exercises
+
+Secure configuration baselines
+
+Q49. What is the Saudi PDPL?
+
+Answer: The Saudi Personal Data Protection Law regulates the processing and protection of personal data. From a cybersecurity perspective, organizations should focus on:
+
+Data classification
+
+Lawful processing
+
+Access control
+
+Data minimization
+
+Retention and deletion
+
+Protection against unauthorized disclosure
+
+Data-subject rights
+
+Third-party processing
+
+Incident and privacy governance
+
+Interview point: Cybersecurity controls support PDPL compliance, but PDPL compliance also requires privacy governance, legal assessment, documentation, and appropriate data-processing practices.
+
+Q50. How do NCA ECC and Saudi PDPL differ?
+
+NCA ECC
+
+	
+
+Saudi PDPL
+
+
+
+
+Cybersecurity control requirements
+
+	
+
+Personal-data protection law
+
+
+
+
+Focuses on securing systems and information
+
+	
+
+Focuses on lawful and responsible personal-data processing
+
+
+
+
+Includes technical and governance controls
+
+	
+
+Includes privacy, processing, retention, rights, and data governance
+
+
+
+
+Supports cybersecurity risk reduction
+
+	
+
+Supports privacy and personal-data protection
+
+8. Security Architecture and Best Practices
+Q51. What is a secure enterprise network design?
+
+Answer: A secure design normally includes:
+
+Internet edge firewall
+
+DMZ for public services
+
+Internal segmentation
+
+Separate management network
+
+Secure remote access
+
+MFA
+
+IPS and DNS security
+
+Endpoint protection
+
+Centralized logging
+
+Vulnerability management
+
+Backup and disaster recovery
+
+Q52. What are the most important firewall best practices?
+
+Answer:
+
+Use a default-deny approach where practical.
+
+Allow only required traffic.
+
+Use specific source, destination, service, and schedule objects.
+
+Avoid unnecessary ANY rules.
+
+Enable logging for important rules.
+
+Review rules regularly.
+
+Remove unused and shadowed rules.
+
+Restrict administrative access.
+
+Use MFA and trusted management networks.
+
+Back up configurations.
+
+Keep firmware updated.
+
+Monitor denied and suspicious traffic.
+
+Q53. What are the most important security controls for a public web application?
+
+Answer:
+
+Secure application development
+
+WAF
+
+DDoS protection
+
+TLS with strong configuration
+
+Vulnerability scanning
+
+Secure headers
+
+API authentication and authorization
+
+Rate limiting
+
+Bot protection
+
+Network segmentation
+
+Centralized logging
+
+Regular patching
+
+Secure database access
+
+Backup and recovery
+
+Q54. What is a security baseline?
+
+Answer: A security baseline is an approved minimum configuration for systems, devices, applications, or cloud resources.
+
+Examples:
+
+Disable unused services
+
+Enforce strong authentication
+
+Apply security patches
+
+Restrict management access
+
+Enable logging
+
+Use secure protocols
+
+Configure endpoint protection
+
+Q55. What is security hardening?
+
+Answer: Security hardening reduces the attack surface by removing unnecessary functionality and applying secure configurations.
+
+Example: Disable Telnet, use SSH, restrict administrative IPs, remove unused accounts, patch the operating system, and enable centralized logging.
+
+9. Scenario-Based Interview Questions
+Q56. A user clicked a phishing link. What would you do?
+
+Answer:
+
+Identify the user, URL, and affected device.
+
+Check whether credentials were entered.
+
+Isolate the endpoint if malware is suspected.
+
+Review EDR, DNS, proxy, and email logs.
+
+Reset credentials and revoke sessions if necessary.
+
+Check MFA and sign-in activity.
+
+Block the malicious domain and indicators.
+
+Search for other affected users.
+
+Document and report the incident.
+
+Improve email and user-awareness controls.
+
+Q57. A server is suddenly communicating with an unknown external IP. What would you do?
+
+Answer:
+
+Validate the destination IP and reputation.
+
+Identify the process generating the connection.
+
+Review DNS, firewall, proxy, and EDR logs.
+
+Check whether the traffic is expected.
+
+Compare the behavior with the server baseline.
+
+Isolate the server if compromise is suspected.
+
+Capture evidence before making destructive changes.
+
+Investigate persistence and lateral movement.
+
+Block the indicator where appropriate.
+
+Recover and perform root-cause analysis.
+
+Q58. A critical vulnerability is discovered on an Internet-facing server. How do you prioritize it?
+
+Answer: I would consider:
+
+Internet exposure
+
+Asset criticality
+
+Exploit availability
+
+Active exploitation
+
+Vulnerability severity
+
+Availability of a patch
+
+Compensating controls
+
+Business impact
+
+Data sensitivity
+
+If immediate patching is not possible, I would apply temporary controls such as WAF rules, IPS signatures, access restrictions, segmentation, or service shutdown.
+
+Q59. A WAF is blocking legitimate users. How do you troubleshoot?
+
+Answer:
+
+Review the WAF attack or violation log.
+
+Identify the triggered signature or rule.
+
+Confirm whether the request is legitimate.
+
+Reproduce the request safely.
+
+Check the affected URL, parameter, and client.
+
+Tune the specific rule instead of disabling the entire WAF.
+
+Use a narrow exception if required.
+
+Test the change.
+
+Monitor for abuse after tuning.
+
+Document the exception and review it periodically.
+
+Q60. How would you explain cybersecurity to senior management?
+
+Answer: I would explain cybersecurity in terms of business risk, not only technical tools.
+
+I would discuss:
+
+Critical business services
+
+Important assets and data
+
+Main threats
+
+Business impact
+
+Current control gaps
+
+Risk priority
+
+Required investment
+
+Measurable security outcomes
+
+For example:
+
+“The main risk is unauthorized access to customer data through an Internet-facing application. We can reduce this risk through patching, WAF protection, MFA, segmentation, monitoring, and tested recovery procedures.”
