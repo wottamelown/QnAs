@@ -66,18 +66,18 @@ It replaces traditional perimeter security by moving protection to the cloud and
 
 ## Key Advantages
 
-✅ **Scalability** - Cloud-based, no infrastructure limits
-✅ **User Experience** - Faster, better performance than VPN
-✅ **Comprehensive Security** - Unified platform vs multiple tools
-✅ **Visibility** - Deep insights into all traffic and user behavior
-✅ **Flexibility** - Easy policy updates without hardware changes
+**Scalability** - Cloud-based, no infrastructure limits
+**User Experience** - Faster, better performance than VPN
+**Comprehensive Security** - Unified platform vs multiple tools
+**Visibility** - Deep insights into all traffic and user behavior
+**Flexibility** - Easy policy updates without hardware changes
 
 ## Common Challenges
 
-⚠️ **Migration Complexity** - Transitioning from legacy infrastructure
-⚠️ **Adoption** - User training and change management
-⚠️ **Integration** - Connecting with existing security tools
-⚠️ **Cost Management** - Optimizing cloud spending
+**Migration Complexity** - Transitioning from legacy infrastructure
+**Adoption** - User training and change management
+**Integration** - Connecting with existing security tools
+**Cost Management** - Optimizing cloud spending
 
 ## Quick Facts
 
